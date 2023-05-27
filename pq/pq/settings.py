@@ -87,8 +87,8 @@ DATABASES = {
         "ENGINE": "mssql",
         "NAME": "PQ",
         "USER": "sa",
-        "PASSWORD": "Vsp$2015",
-        "HOST": "192.168.0.6",
+        "PASSWORD": "*****",
+        "HOST": "******",
         "PORT": "1433",
         # 'CONN_MAX_AGE': 600,  # Maximum age of connections: 10 minutes
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server",
