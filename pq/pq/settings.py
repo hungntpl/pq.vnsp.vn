@@ -85,8 +85,8 @@ WSGI_APPLICATION = 'pq.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "mssql",
-        "NAME": "PQ",
-        "USER": "sa",
+        "NAME": "***",
+        "USER": "****",
         "PASSWORD": "*****",
         "HOST": "******",
         "PORT": "1433",
