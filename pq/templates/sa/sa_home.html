@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'sa/css/style.css' %}">
+</head>
+
+
+<body>
+    
+
+    
+
+    <center>    
+        <h2>SPEC Agreement</h2>
+    </center>
+
+    <div class="row">
+        <form method="GET">
+            {% csrf_token %}
+            <div class="column">
+                <table id="stb">
+                    <tr>
+                        <td>{{ search_form.SANo.label_tag }}{{ search_form.SANo }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.CustID.label_tag }}{{ search_form.CustID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.Model.label_tag }}{{ search_form.Model }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.PipeStd.label_tag }}{{ search_form.PipeStd }}</td>
+                    </tr>  
+                </table>
+            </div>
+            <div class="column">
+                <table id="stb">
+                    <tr>
+                        <td>{{ search_form.OD.label_tag }}{{ search_form.OD }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.ID.label_tag }}{{ search_form.ID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.WT.label_tag }}{{ search_form.WT }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.L.label_tag }}{{ search_form.L }}</td>
+                    </tr> 
+                </table>
+            </div>
+            <div class="column">
+                <table id="stb">
+                    <tr>
+                        <td>{{ search_form.OD.label_tag }}{{ search_form.OD }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.ID.label_tag }}{{ search_form.ID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.WT.label_tag }}{{ search_form.WT }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.L.label_tag }}{{ search_form.L }}</td>
+                    </tr> 
+                </table>
+            </div>
+            <div class="column">
+                <table id="stb">
+                    <tr>
+                        <td>{{ search_form.OD.label_tag }}{{ search_form.OD }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.ID.label_tag }}{{ search_form.ID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.WT.label_tag }}{{ search_form.WT }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.L.label_tag }}{{ search_form.L }}</td>
+                    </tr> 
+                </table>
+            </div>
+            <div class="column">
+                <table id="stb">
+                    <tr>
+                        <td>{{ search_form.OD.label_tag }}{{ search_form.OD }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.ID.label_tag }}{{ search_form.ID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.WT.label_tag }}{{ search_form.WT }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ search_form.L.label_tag }}{{ search_form.L }}</td>
+                    </tr> 
+                </table>
+            </div>
+            <button type="submit" class="hidden">Submit</button>
+        </form>
+    </div>
+    
+    <!-- <form action="{% url 'SAHome' %}" method="get">
+        <label for="OD">OD:</label>
+        <input type="text" id="OD" name="OD">
+        <label for="ID">ID:</label>
+        <input type="text" id="ID" name="ID">
+        <label for="WT">WT:</label>
+        <input type="text" id="WT" name="WT">
+        <label for="L">L:</label>
+        <input type="text" id="L" name="L">
+        <button type="submit">Search</button>
+    </form> -->
+    
+   
+    
+    <table id="sa">
+        <tr>
+            <th>No</th>
+            <th>SA No</th>
+
+            <th>OD</th>
+            <th>ID</th>
+            <th>WT</th>
+            <th>L</th>
+
+
+
+
+            <th>Cust ID</th>
+            <th>Model</th>
+            <th>Pipe Std</th>
+            
+            <th>Issue Date</th>
+            <th>Version</th>
+            <th>Last Modifier</th>
+            <th>Modify time</th>
+            
+            
+        </tr>
+        {% for item in results %}
+        <tr>
+            <td >{{ forloop.counter }}</td>
+            <td><a href="{% url 'SA-detail' pk=item.SANo %}">{{ item.SANo }}</a></td>
+            <td>{{ item.OD }}</td>
+            <td>{{ item.ID }}</td>
+            <td>{{ item.WT }}</td>
+            <td>{{ item.L }}</td>
+
+            <td>{{ item.CustID }}</td>
+            <td>{{ item.Model }}</td>
+            <td>{{ item.PipeStd }}</td>
+
+            <td>{{ item.IDate }}</td>
+            <td>{{ item.SAVer }}</td>
+            <td>{{ item.LastUser }}</td>
+            <td>{{ item.LastimeUser }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+
+
+</body>
+{% endblock %}

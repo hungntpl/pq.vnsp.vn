@@ -1,0 +1,72 @@
+/* Scrollable area */
+
+
+
+/* the list */
+.cust-list {
+    height: 700px;
+    overflow-y: scroll;
+}
+
+
+/* .cust-list button:hover, input[type=button] {
+    
+    cursor: pointer;
+}
+
+.cust-list button, input[type=button] {
+    
+    width: 90%;
+} */
+
+#cust-list-tb {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+   
+#cust-list-tb td, #cust-list-tb th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+#cust-list-tb tr:nth-child(even){background-color: #f2f2f2;}
+
+#cust-list-tb tr:hover {background-color: #ddd;}
+
+
+#cust-list-tb th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: center;
+    background-color: #04AA6D;
+    color: white;
+
+}
+
+#cust-list-tb td:nth-child(2) {
+background-color: #d3c79d;
+text-align: left;
+}
+
+#cust-list-tb td:nth-child(3){
+background-color: #d3c79d;
+text-align: left;
+}
+
+#cust-list-tb td:nth-child(4){
+    text-align: center;
+    }
+#cust-list-tb td:nth-child(5){
+    text-align: center;
+}
+  
+
+/* div {
+    height: 500px;
+    overflow-y: scroll;
+    
+} */
+  

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cs/css/style.css' %}">
+    
+</head>
+<body>
+
+<div class="card card-secondary">
+  <div class="card-header">
+    <h3 class="card-title">Download Consideration Sheet</h3>
+  </div>
+  <div class="card-body">
+    <form role="form" method="POST" action="{% url 'export-data' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="form-group">
+          <label>Choose Format Type</label>
+          <select class="custom-select" name="file-format">
+            <option selected>Choose format...</option>
+            <option>CSV</option>
+            <option>JSON</option>
+            <option>XLS (Excel)</option>
+          </select>
+        </div> <br><br><br>
+      <button type="submit" class="btn btn-info btn-block">Download</button>
+    </form>
+  </div>
+</div>
+</body>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>PQ</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'pq/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'pq/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'pq/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'pq/site.webmanifest' %}">
+
+    
+
+</head>
+
+<body>
+  <div id="header">
+    <!-- // header content -->
+    {% include 'pq/navbar.html' %}
+  </div>
+    
+  <div id="main_content">
+    {% block content %}{% endblock %}   
+          <!-- // This is where our page-specific code goes.  -->
+  </div>
+  
+  <div id="footer">
+      <!-- // footer content -->
+  </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'set/css/style.css' %}">
+    
+</head>
+<body>
+
+    <center>    
+        <h3>Customer list</h3>
+    </center>
+    <div class="cust-list">
+      <table id="cust-list-tb">
+        <tr>
+            <th>No</th>
+            <th>CustID</th>
+  
+            <th>Fullname</th>
+            <th>Action</th>
+            <th>Action</th>
+            <th>Address</th>
+            <th>SignT</th>
+            <th>Sign1</th>
+  
+  
+  
+  
+            <th>Sign2</th>
+            <th>Sign3</th>
+            <th>Notes</th>
+            
+            
+            <th>Last Modifier</th>
+            <th>Modify time</th>
+            
+            
+        </tr>
+        {% for item in cust_list %}
+        <tr>
+            <td >{{ forloop.counter }}</td>
+            <td><a href="{% url 'cust-detail' pk=item.CustID %}">{{ item.CustID }}</a></td>
+            <td>{{ item.Fullname }}</td>
+            
+            <td><a href="{% url 'cust-update' pk=item.CustID %}">Edit</a></td>
+            <td><a href="{% url 'cust-delete' pk=item.CustID %}">Delete</a></td>
+            
+
+            <td>{{ item.Address }}</td>
+            <td>{{ item.SignT }}</td>
+            <td>{{ item.Sign1 }}</td>
+  
+            <td>{{ item.Sign2 }}</td>
+            <td>{{ item.Sign3 }}</td>
+            <td>{{ item.Notes }}</td>
+  
+            
+            <td>{{ item.LastUser }}</td>
+            <td>{{ item.LastimeUser }}</td>
+        </tr>
+        {% endfor %}
+     </table>
+    </div>
+     
+  <!-- <ul>
+    {% for item in cust_list %}
+      <li>{{ item.CustID }} {{ item.Fullname }}</li>
+    {% endfor %}
+  </ul> -->
+</body>
+Adv
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'ADMIN' %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+            crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4036164292579668"
+            data-ad-slot="3634864736"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'set/css/style.css' %}">
+    
+</head>
+<body>
+
+    <p>{{ object.PipeGrade.title }} {{ object.PipeGrade }}</p>
+    <p>{{ object.Notes.title }} {{ object.Notes }}</p>
+    <p>{{ object.TS.title }} {{ object.TS }}</p>
+    <p>{{ object.YP.title }} {{ object.YP }}</p>
+    <p>{{ object.EL.title }} {{ object.EL }}</p>
+    <p>{{ object.Hardness.title }} {{ object.Hardness }}</p>
+    <p>{{ object.Other.title }} {{ object.Other }}</p>
+    <p>{{ object.ChC.title }} {{ object.ChC }}</p>
+    <p>{{ object.ChSi.title }} {{ object.ChSi }}</p>
+    <p>{{ object.ChMn.title }} {{ object.ChMn }}</p>
+    <p>{{ object.ChP.title }} {{ object.ChP }}</p>
+    <p>{{ object.ChS.title }} {{ object.ChS }}</p>
+    <p>{{ object.ChAL.title }} {{ object.ChAL }}</p>
+    <p>{{ object.ChNi.title }} {{ object.ChNi }}</p>
+    <p>{{ object.ChCr.title }} {{ object.ChCr }}</p>
+    <p>{{ object.ChMo.title }} {{ object.ChMo }}</p>
+    <p>{{ object.ChTi.title }} {{ object.ChTi }}</p>
+    <p>{{ object.ChNb.title }} {{ object.ChNb }}</p>
+    <p>{{ object.ChZr.title }} {{ object.ChZr }}</p>
+    <p>{{ object.ChN.title }} {{ object.ChN }}</p>
+
+
+
+
+
+
+    <p>{{ object.LastUser }}</p>
+    <p>{{ object.LastimeUser }}</p>
+
+    
+
+</body>
+
+{% endblock %}

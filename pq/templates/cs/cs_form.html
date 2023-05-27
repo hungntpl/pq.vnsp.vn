@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+        
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cs/css/style.css' %}">
+
+    <!-- import jquery -->
+    <script type="text/javascript" src="{% static 'cs/js/jquery-3.6.4.min.js' %}"></script>
+
+    <!-- access permision by jquery, the risk-->
+    
+    <script>
+        var groups = [];
+        {% for group in user.groups.all %}
+            groups.push('{{ group.name }}');
+        {% endfor %}
+        // var ugroup = "{{ group.name }}" + ugroup;
+        $(document).ready(function(){
+
+            if (!groups.includes("AS")) {
+                $('.as-area').find('*').attr('readonly', true);
+                // $('.as-area').find("select").prop("disabled", true);
+                $('.as-area').find("select").css('pointer-events', 'none');
+                
+                $(".as-area :file").prop("disabled", true);
+                $(".as-area :checkbox").prop("disabled", true);
+                $('#DelButton').prop('disabled', true);
+                $(".as-area :button").prop("disabled", true);
+                $('.as-area input[type="submit"]').prop('disabled', true);
+
+
+            }
+            if (!groups.includes("ASMan")) {
+                $("#as-judg").css("pointer-events", "none");
+                $("#as-note").css("pointer-events", "none");
+            }
+            if (!groups.includes("DGD")) {
+                $("#dgd-judg").css("pointer-events", "none");
+                $("#dgd-note").css("pointer-events", "none");
+            }
+
+
+
+
+
+            if (!groups.includes("PI")) {
+                $('.pi-area').find('*').attr('readonly', true);
+                $(".pi-area :button").prop("disabled", true);
+
+            }
+
+            if (!groups.includes("PIMan")) {
+                $("#pi-judg").css("pointer-events", "none");
+                $("#pi-note").css("pointer-events", "none");
+            }
+
+
+
+
+
+
+            if (!groups.includes("QAMan")) {
+                $("#qa-judg").css("pointer-events", "none");
+                $("#qa-note").css("pointer-events", "none");
+            }
+
+
+            if (!groups.includes("PCMan")) {
+                $("#pc-judg").css("pointer-events", "none");
+                $("#pc-note").css("pointer-events", "none");
+            }
+
+            if (!groups.includes("PRMan")) {
+                $("#pr-judg").css("pointer-events", "none");
+                $("#pr-note").css("pointer-events", "none");
+            }
+            if (!groups.includes("QCMan")) {
+                $("#qc-judg").css("pointer-events", "none");
+                $("#qc-note").css("pointer-events", "none");
+        }
+            if (!groups.includes("QC")) {
+                $('.qc-area').find('*').attr('readonly', true);
+                $(".qc-area :file").prop("disabled", true);
+                $(".qc-area :button").prop("disabled", true);
+                $(".qc-area :checkbox").prop("disabled", true);
+                // $('.qc-area').find("select").prop("disabled", true);
+                $('.qc-area').find("select").css('pointer-events', 'none');
+                $('.qc-area').find('a').css('pointer-events', 'none');
+
+            if (groups.includes("AS")) {
+                $("#id_coilprocess_set-0-CMaker").attr('readonly', false);
+                $("#id_coilprocess_set-1-CMaker").attr('readonly', false);
+                $("#id_coilprocess_set-2-CMaker").attr('readonly', false);
+                $("#id_coilprocess_set-3-CMaker").attr('readonly', false);
+                $("#id_coilprocess_set-4-CMaker").attr('readonly', false);
+                $("#id_coilprocess_set-5-CMaker").attr('readonly', false);
+
+                $("#id_coilprocess_set-0-DELETE").prop("disabled", false);
+                $("#id_coilprocess_set-1-DELETE").prop("disabled", false);
+                $("#id_coilprocess_set-2-DELETE").prop("disabled", false);
+                $("#id_coilprocess_set-3-DELETE").prop("disabled", false);
+                $("#id_coilprocess_set-4-DELETE").prop("disabled", false);
+                $("#id_coilprocess_set-5-DELETE").prop("disabled", false);
+                $("#id_PackPCQty").attr('readonly', true);
+                $("#id_PackPCNote").attr('readonly', true);
+
+            }
+            if (groups.includes("PC")) {
+
+                $("#id_PackPCQty").attr('readonly', false);
+                $("#id_PackPCNote").attr('readonly', false);
+            }
+        }
+        $('a').prop('disabled', false);
+
+        });
+    </script>
+
+
+
+</head>
+<body >
+
+
+    <!-- Title and result -->
+    <div style="text-align: center;">
+        {% if request.resolver_match.url_name == 'cs-update' %}
+            <h3>Consideration Sheet No: {{ form.CSNo.value }}</h3>
+        {% else %}
+            <h3> Create a Consideration Sheet</h3>
+        {% endif %}
+    </div>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field_errors in form.errors.values %}
+                {% for error in field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if messages %}
+        <div style="text-align: center;">
+            {% for message in messages %}
+                {{ message.tags }} : {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    </div>
+
+    <form method="post" enctype="multipart/form-data" autocomplete="on"> {% csrf_token %}
+        <div style="display: none;">
+            {{ form.DGDManDate }}
+            {{ form.ASManDate }}
+            {{ form.PIManDate }}
+            {{ form.QAManDate }}
+            {{ form.QCManDate }}
+            {{ form.PRManDate }}
+            {{ form.PCManDate }}
+        </div>
+
+        <div class="row" style="border: solid black 1px;">
+            <h4 style="text-align: left;text-decoration: underline;">Approval section</h4>
+            <div class = "bod-area" >
+                <div class="column-1p10" >
+
+                    <table id="edit-tb" style="height: 100%;">
+                        <tr >
+                            <td ><input type="submit" name="save-edit-cs" value="Save & Edit CS"></td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td><input type="submit" name="save-print-cs" value="Save & Print CS" ></td>
+                        </tr>
+                        {% if request.resolver_match.url_name == 'cs-update' %}
+                            <tr>
+                                <td>
+                                    <input type="button" value="Delete this CS" onclick="window.location.href='{% url 'cs-delete' pk=object.pk %}'" id="DelButton">
+                                </td>
+                            </tr>
+                            <!-- <tr>
+                                <td>
+                                    <input type="button" value="Download PDF" onclick="window.location.href='{% url 'cs-pdf' pk=object.pk %}'">
+                                </td>
+                            </tr> -->
+                            <tr>
+                                <td><input type="button" onclick="window.location.href='{% url 'cs-detail' pk=object.pk %}'" value="Print preview"></td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td><input type="reset" value="Cancel"></td>
+                        </tr>
+
+
+
+
+
+
+
+
+                            <!-- <tr>
+                                <td >
+                                    {{ form.GotoSAKey }}
+                                    <button type="submit">Go!</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{ form.GotoCSKey }}
+                                    <button type="submit">Go!</button>
+                                </td> -->
+                                <!-- <script>
+
+                                    function GotoCSNo() {
+                                        window.location.href="http://pq.vnsp.vn/cs/" + "{{ form.GotoCSKey }}";
+                                    }
+
+                                </script> -->
+                                <!-- <script>
+
+                                    function GotoCSNo() {
+                                        window.location.href="http://pq.vnsp.vn/cs/" + document.getElementById("GotoCSKey").value;
+                                    }
+
+                                </script> -->
+                            </tr>
+
+
+
+                    </table>
+
+            </div>
+                <div class="column-1p10-judg" >
+
+                    <table id="judg-tb" style="height: 100%;">
+                        <tr>
+                            <td id="dgd-judg">{{ form.DGDJudgment.label_tag }}{{ form.DGDJudgment }}</td>
+                        </tr>
+                        <tr>
+                            <td id="qc-judg">{{ form.QCManJudgment.label_tag }}{{ form.QCManJudgment }}</td>
+                        </tr>
+                        <tr>
+                            <td id="qa-judg">{{ form.QAManJudgment.label_tag }}{{ form.QAManJudgment }}</td>
+                        </tr>
+                        <tr>
+                            <td id="pi-judg">{{ form.PIManJudgment.label_tag }}{{ form.PIManJudgment }}</td>
+                        </tr>
+                        <tr>
+                            <td id="pr-judg">{{ form.PRManJudgment.label_tag }}{{ form.PRManJudgment }}</td>
+                        </tr>
+                        <tr>
+                            <td id="pc-judg">{{ form.PCManJudgment.label_tag }}{{ form.PCManJudgment }}</td>
+                        </tr>
+                        <tr>
+                            <td id="as-judg">{{ form.ASManJudgment.label_tag }}{{ form.ASManJudgment }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column-8p10" >
+                    <table id="bom-tb">
+                        <tr>
+                            <td id="dgd-note">{{ form.DGDNote.label_tag }}{{ form.DGDNote }}</td>
+                        </tr>
+                        <tr>
+                            <td id="qc-note">{{ form.QCManNote.label_tag }}{{ form.QCManNote }}</td>
+                        </tr>
+                        <tr>
+                            <td id="qa-note">{{ form.QAManNote.label_tag }}{{ form.QAManNote }}</td>
+                        </tr>
+                        <tr>
+                            <td id="pi-note">{{ form.PIManNote.label_tag }}{{ form.PIManNote }}</td>
+                        </tr>
+                        <tr>
+                            <td id="pr-note">{{ form.PRManNote.label_tag }}{{ form.PRManNote }}</td>
+                        </tr>
+                        <tr>
+                            <td id="pc-note">{{ form.PCManNote.label_tag }}{{ form.PCManNote }}</td>
+                        </tr>
+                        <tr>
+                            <td id="as-note">{{ form.ASManNote.label_tag }}{{ form.ASManNote }}</td>
+                        </tr>
+
+
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class = "as-area" >
+                <div class = "column-1p5">
+                    <h4 style="text-align: left;text-decoration: underline;">AS section</h4>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <div class="row" >
+
+            <div class = "as-area" >
+                <div class="column-1p5">
+                    <table style="height: 100%;">
+                        <tr>
+                            {% if request.resolver_match.url_name == 'cs-add' %}
+                                <td>
+                                    {{ form.CSNo.label_tag }}{{ form.CSNo }}
+                                </td>
+                            {% else %}
+                        </tr>
+                        <tr>
+                            <td style="pointer-events: none; color: brown; ">
+                                {{ form.CSNo.label_tag }}{{ form.CSNo }}
+                            </td>
+                            {% endif %}
+                        </tr>
+
+                        <tr>
+                            <td style="display: flex; justify-content: space-between;">
+                                <input style="width: auto;" type="submit" name="save-upver-cs" value="Upgrade CS version">
+                                <button type="submit" name="save-edit-cs" value="Save &amp; Edit CS">Save</button>
+
+                            </td>
+                            <script>
+                                function ASKgPcsDefault() {
+                                    
+                                    od = parseFloat(document.getElementById("id_OD").value)
+                                    id = parseFloat(document.getElementById("id_ID").value)
+                                    if (isNaN(id)) {
+                                        id = 0;
+                                    }
+                                    wt = parseFloat(document.getElementById("id_WT").value)
+                                    l = parseFloat(document.getElementById("id_L").value)
+                                    shape = document.getElementById("id_SKind").value
+                                    var PipeGrade = document.getElementById("id_PipeGrade").value;
+                                    
+                                    {% for pipegrade in pipegrades %}
+
+                                        if (PipeGrade === "{{ pipegrade.PipeGrade }}") {
+                                            index = "{{ pipegrade.Index }}";
+
+                                        }
+                                        else {
+                                            document.getElementById("id_Density").value = ""
+                                        }
+
+                                    {% endfor %}
+
+                                    
+                                    
+                                    if (shape === "Square") {
+                                        result = (od + id - wt * 3.287 )* 0.0157 * wt * l/1000
+                                        // result = index
+                                    }
+
+
+                                    else {
+                                        result = (od - id) * wt * index * l/1000
+                                    }
+
+                                    document.getElementById("id_Density").value = result.toFixed(5);
+                                    // document.getElementById("id_Density").value = result.toFixed(4);
+                                    // document.getElementById("id_Enduser").value = id
+
+                                }
+
+                            </script>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column-2p5">
+                    <table style="height: 100%;">
+                        <tr>
+                            <td>
+                                <label for="cust_finding">Customer information:</label>
+                                <input id="cust_finding" type="text" onblur="getFullname()" placeholder="Enter ID of customer then press tab">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> {{ form.CustID }}</td>
+                        </tr>
+
+                            <script>
+                                function getFullname() {
+
+                                    var input = document.getElementById("cust_finding");
+                                    input.value = input.value.toUpperCase();
+                                    {% for item in customers %}
+
+                                        if (input.value === "{{ item.CustID}}") {
+                                            console.log("{{ item.CustID}}");
+                                            document.getElementById("id_CustID").value = "{{ item.CustID }}";
+                                        }
+                                    {% endfor %}
+                                }
+
+                            </script>
+
+
+
+                    </table>
+
+                </div>
+                <div class="column-1p10" style="border: solid black 1px; border-right: none; background-color: #d3c79d;">
+
+                    <table id="edit-tb">
+                        <tr>
+                            <td>
+                                <h4 style="text-align: left;text-decoration: underline;">PC section</h4>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="column-1p3" style="border: solid black 1px; border-left: none; background-color: #d3c79d;">
+
+                    <table id="edit-tb">
+
+                        <tr>
+                            <td>{{ form.PackPCQty.label_tag }}{{ form.PackPCQty }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.PackPCNote.label_tag }}{{ form.PackPCNote }}</td>
+                        </tr>
+
+
+
+
+
+                    </table>
+                </div>
+
+                <div class="column-2p5">
+
+
+                    <!-- <td >{{ form.ImageSPEC.label_tag }}{{ form.ImageSPEC }}</td> -->
+                </div>
+            </div>
+        </div>
+        <div class="row" >
+            <div class = "as-area" >
+                <div class="column-1p5">
+                    <table id="edit-tb">
+
+
+                        <!-- {% if request.resolver_match.url_name == 'cs-add' %}
+                            <tr>
+                                <td style="color: brown;">{{ form.CSNo.label_tag }}{{ form.CSNo }}</td>
+                            </tr>
+                        {% endif %} -->
+                        <!-- <tr>
+                            <td>{{ form.IDate.label_tag }}{{ form.IDate }}</td>
+                        </tr> -->
+                        <tr>
+                            <td>{{ form.CVerDate.label_tag }}{{ form.CVerDate }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.DLine.label_tag }}{{ form.DLine }}</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td>
+                                <div id="table-scroll" style="max-height: 170px;  border: 1px solid black;">    
+                                    <table id="cs" style="border-collapse: collapse; text-align: center;">
+                                       
+                                        <thead>
+                                            <tr>
+                                                <th>CS History</th>
+                                                <th>Issue date</th>
+                                                <th>SA History</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        {% for item in AppHistory %}
+                                        <tr>
+            
+                                            <td>
+                                                <a href="{% url 'cs-update' pk=item.CSNo %}">{{ item.CSNo }}</a>
+                                            </td>
+                                            <td>
+                                                {{ item.CVerDate }}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'sa-update' pk=item.SANo %}">{{ item.SANo|default_if_none:"" }}</a>
+                                            </td>
+                                            
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        
+
+                        
+                        
+
+
+
+                    </table>
+                </div>
+
+                <div class="column-1p5" >
+
+
+
+                    <div class="column-1p2">
+                        <table id="edit-tb" >
+                            <tr>
+                                <td>{{ form.OD.label_tag }}{{ form.OD }}</td>
+
+                            </tr>
+                            <tr>
+                                <td>{{ form.ID.label_tag }}{{ form.ID }}</td>
+
+                            </tr>
+                            <tr>
+                                <td>{{ form.WT.label_tag }}{{ form.WT }}</td>
+
+                            </tr>
+                            <tr>
+                                <td>{{ form.L.label_tag }}{{ form.L }}</td>
+
+                            </tr>
+                            <tr>
+                                <td>{{ form.SKind.label_tag }}{{ form.SKind }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.PKind.label_tag }}{{ form.PKind }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.EstQty.label_tag }}{{ form.EstQty }}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="column-1p2">
+                        <table id="edit-tb" >
+                            <tr>
+
+                                <td colspan="2">{{ form.AdjOD.label_tag }}{{ form.AdjOD }}</td>
+                            </tr>
+                            <tr>
+
+                                <td colspan="2">{{ form.AdjID.label_tag }}{{ form.AdjID }}</td>
+                            </tr>
+                            <tr>
+
+                                <td colspan="2">{{ form.AdjWT.label_tag }}{{ form.AdjWT }}</td>
+                            </tr>
+                            <tr>
+
+                                <td colspan="2">{{ form.AdjL.label_tag }}{{ form.AdjL }}</td>
+                            </tr>
+                            <tr>
+                                <!-- <td style="text-align: left;" ><button type="button" onclick="ASKgPcsDefault()">Kg/Pc</button></td> -->
+                                <td ><button type="button" onclick="ASKgPcsDefault()">Kg/Pc=</button>{{ form.Density }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">{{ form.NewInq.label_tag }}{{ form.NewInq }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">{{ form.Event.label_tag }}{{ form.Event }}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+
+                </div>
+                <div class="column-1p5">
+                    <table id="edit-tb" style="height: 100%;">
+
+                        <tr>
+                            <td>{{ form.PipeGrade.label_tag }}{{ form.PipeGrade }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ form.Model.label_tag }}{{ form.Model }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.PartNo.label_tag }}{{ form.PartNo }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.PartName.label_tag }}{{ form.PartName }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.PipeEdgeValue.label_tag }}{{ form.PipeEdgeValue }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.InBead.label_tag }}{{ form.InBead }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ form.Enduser.label_tag }}{{ form.Enduser }}</td>
+                        </tr>
+
+
+
+
+
+                    </table>
+                </div>
+
+                <div class="column-1p5">
+                    <table id="edit-tb">
+
+
+
+                        <tr>
+                            <td>{{ form.SurfLevel.label_tag }}{{ form.SurfLevel }}</td>
+                        </tr>
+
+
+                        <tr >
+                            <td>
+                                {{ form.CVerNote.label_tag }}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td class="notes">
+                                {{ form.CVerNote }}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                {{ form.Notes.label_tag }}
+                            </td>
+                        </tr>
+                        <tr >
+                            <td>
+                                {{ form.Notes }}
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="column-1p5" >
+
+                    <div class="file-field" >
+                        
+                        <input type="file" id="id_ImageSPEC" name="ImageSPEC">  
+                        <button type="submit" name="save-edit-cs" value="Save &amp; Edit CS">Save</button>                      
+                        
+                        
+                    </div>
+                    <div style="text-align: center; ">
+                        
+                        {% if form.ImageSPEC.value %}
+                        
+                            
+                            <a href="{{ form.ImageSPEC.value.url }}">
+                                <img src="{{ form.ImageSPEC.value.url }}" alt="CS Drawing" height="160px">
+                            </a>
+                        
+                        {% endif %}
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div >
+
+
+
+        <div class="row" style="border: solid black 1px;"></div>
+
+        <div class="row">
+            <h4 style="text-align: left;text-decoration: underline;">QC section</h4>
+            <div class="qc-area">
+                
+                {{ CSQC.management_form }}
+                {% for child_form in CSQC.forms %}
+                    {% for hidden in child_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                <div class="column-1p5">
+                    <table id="edit-tb">
+                        <tr style="color: brown; ">
+                            <td>{{ form.SANo.label_tag }}{{ form.SANo }}</td>
+                        </tr>
+                        <tr>
+                            <td style="display: flex; justify-content: space-between;">
+                                {% if request.resolver_match.url_name == 'cs-update' %}
+                                <!-- <input type="submit" name="save-edit-sa" value="Save & Edit SA" > -->
+                                <button type="submit" name="save-edit-sa" value="Save &amp; Edit SA">Save CS/Edit SA</button>
+                                <!-- <button type="submit" name="save-add-sa" value="Save &amp; Add SA">Add SA</button> -->
+
+                                {% endif %}
+
+                                <button type="reset" >Cancel</button>
+                                <button type="button" onclick="PQLoadDefault()">Get default</button>
+
+
+                                <button type="submit" name="save-edit-cs" value="Save &amp; Edit CS">Save</button>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                {{child_form.Description.label_tag }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{child_form.Description}}
+                            </td>
+                            <!-- <td class="notes">{{child_form.Description}}</td> -->
+                        </tr>
+
+
+                        <!-- <tr>
+                            <td>{{child_form.Notes.label_tag }}{{child_form.Notes}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.QAManNote.label_tag }}{{child_form.QAManNote}}</td>
+                        </tr> -->
+                        <tr>
+                            <td>
+                                {{child_form.Notes.label_tag }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- <td>
+                                <textarea>{{child_form.Notes.value|default_if_none:""}}</textarea>
+                            </td> -->
+                            <td class="notes">{{child_form.Notes}}</td>
+                        </tr>
+
+                        {% for item in pgrage_com_list %}
+                        <script>
+
+
+
+                            function PQLoadDefault() {
+
+                                document.getElementById("id_csqc_set-0-TS").value = "{{ item.TS|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-YP").value = "{{ item.YP|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-EL").value = "{{ item.EL|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-Hardness").value = "{{ item.Hardness|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-Other").value = "{{ item.Other|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChC").value = "{{ item.ChC|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChSi").value = "{{ item.ChSi|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChMn").value = "{{ item.ChMn|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChP").value = "{{ item.ChP|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChS").value = "{{ item.ChS|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChAL").value = "{{ item.ChAL|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChNi").value = "{{ item.ChNi|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChCr").value = "{{ item.ChCr|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChTi").value = "{{ item.ChTi|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChMo").value = "{{ item.ChMo|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChNb").value = "{{ item.ChNb|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChZr").value = "{{ item.ChZr|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-ChN").value = "{{ item.ChN|default_if_none:""}}";
+
+                                document.getElementById("id_csqc_set-0-Flaring").value = "{{ item.Flaring|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-Flattening").value = "{{ item.Flattening|default_if_none:"" }}";
+                                document.getElementById("id_csqc_set-0-Flattening90").value = "{{ item.Flattening90|default_if_none:""}}";
+                                document.getElementById("id_csqc_set-0-Straightness").value = "{{ item.Straightness|default_if_none:""}}";
+
+
+                            }
+                        </script>
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+                <div class="column-1p5">
+                    <div class="column-1p2">
+                        <table id="edit-tb">
+                            <tr>
+                                <td>{{child_form.AdjOD.label_tag }}{{child_form.AdjOD}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.AdjID.label_tag }}{{child_form.AdjID}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.AdjWT.label_tag }}{{child_form.AdjWT}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.AdjL.label_tag }}{{child_form.AdjL}}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                    <div class="column-1p2">
+                        <table id="edit-tb">
+                            <tr>
+                                <td>{{child_form.InBead.label_tag }}{{child_form.InBead}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.Flaring.label_tag }}{{child_form.Flaring}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.Flattening.label_tag }}{{child_form.Flattening}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.Flattening90.label_tag }}{{child_form.Flattening90}}</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="column-1p5">
+                    <table id="edit-tb">
+                        <tr>
+                            <td>{{child_form.SurfLevel.label_tag }}{{child_form.SurfLevel}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.SurfTreat.label_tag }}{{child_form.SurfTreat}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.PipeEdgeNote.label_tag }}{{child_form.PipeEdgeNote}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.Straight.label_tag }}{{child_form.Straight}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.SQWSPost.label_tag }}{{child_form.SQWSPost}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.SQConR.label_tag }}{{child_form.SQConR}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.PPunch.label_tag }}{{child_form.PPunch}}</td>
+                        </tr>
+
+
+                    </table>
+                </div>
+
+                <div class="column-1p5">
+                        <table id="edit-tb">
+
+
+                            <tr>
+                                <td>{{child_form.ChC.label_tag }}{{child_form.ChC}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChSi.label_tag }}{{child_form.ChSi}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChMn.label_tag }}{{child_form.ChMn}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChP.label_tag }}{{child_form.ChP}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChS.label_tag }}{{child_form.ChS}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChAL.label_tag }}{{child_form.ChAL}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChNi.label_tag }}{{child_form.ChNi}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChCr.label_tag }}{{child_form.ChCr}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChMo.label_tag }}{{child_form.ChMo}}</td>
+                            </tr>
+
+                        </table>
+
+                </div>
+
+                <div class="column-1p5">
+                        <table id="edit-tb">
+
+
+
+
+
+                            <tr>
+                                <td>{{child_form.ChTi.label_tag }}{{child_form.ChTi}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChNb.label_tag }}{{child_form.ChNb}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChZr.label_tag }}{{child_form.ChZr}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.ChN.label_tag }}{{child_form.ChN}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>{{child_form.TS.label_tag }}{{child_form.TS}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.YP.label_tag }}{{child_form.YP}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.EL.label_tag }}{{child_form.EL}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.Hardness.label_tag }}{{child_form.Hardness}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.Other.label_tag }}{{child_form.Other}}</td>
+                            </tr>
+
+                        </table>
+
+                </div>
+
+                {% endfor %}
+                
+            </div>
+        </div>
+
+        <div class="row-coil">
+            <div class="qc-area">
+                <div class="column-3p4" style="background-color: #d3c79d; border: dashed black 1px;">
+                    <h4 style="text-align: center;">Coil Process (QC + AS section)</h4>
+                    <div id="table-wrapper">
+                        <div id="table-scroll-file">
+                            <table id="cs">
+                                <thead>
+                                    <tr>
+
+
+                                        <th>Coil Maker</th>
+                                        <th>CSPEC</th>
+                                        <th>Coil Grade</th>
+                                        <th>CWT Order</th>
+                                        <th>SCoil Width</th>
+                                        <th>MLineQC</th>
+                                        <th>Description</th>
+                                        <th>SCoilWidthPI</th>
+
+                                        <th>MLinePI</th>
+                                        <th>Del.</th>
+
+                                    </tr>
+                                </thead>
+
+                                {{ CSCoilPro.management_form }}
+                                {% for child_form in CSCoilPro.forms %}
+                                    {% for hidden in child_form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    <tr>
+                                        <!-- {% for field in child_form.visible_fields %}
+                                            <td>
+                                                {{ field.errors.as_ul }}
+                                                {{ field }}
+                                            </td>
+                                        {% endfor %} -->
+                                        <td>{{child_form.CMaker}}</td>
+                                        <td>{{child_form.CSPEC}}</td>
+                                        <td>{{child_form.CGrade}}</td>
+                                        <td>{{child_form.CWTOrder}}</td>
+                                        <td>{{child_form.SCoilWidth}}</td>
+                                        <td>{{child_form.MLineQC}}</td>
+                                        <td>{{child_form.Description}}</td>
+                                        <td>{{child_form.SCoilWidthPI}}</td>
+                                        <td>{{child_form.MLinePI}}</td>
+                                        <td>{{child_form.DELETE}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="column-2p5" style="border: dashed black 1px; background-color: #ddd;">
+                    <h4 style="text-align: center;">Customer Process</h4>
+                    <div id="table-wrapper">
+                        <div id="table-scroll-file">
+                            <table id="cs">
+                                <thead>
+                                    <tr>
+
+                                        <th>Process</th>
+                                        <th>QC Note</th>
+                                        <th>Description</th>
+
+                                        <th>Del.</th>
+
+                                    </tr>
+                                </thead>
+
+                                {{ CSCustPro.management_form }}
+                                {% for child_form in CSCustPro.forms %}
+                                    {% for hidden in child_form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    <tr>
+                                        {% for field in child_form.visible_fields %}
+                                            <td>
+                                                {{ field.errors.as_ul }}
+                                                {{ field }}
+                                            </td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" style="border: solid black 1px;">
+            <h4 style="text-align: left;text-decoration: underline;">PI section</h4>
+            <div class="pi-area">
+
+                {{ CSPI.management_form }}
+                {% for child_form in CSPI.forms %}
+                    {% for hidden in child_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                <div class="column-1p5">
+                    <table id="edit-tb">
+                        <tr>
+                            <td>{{child_form.RBreakdown.label_tag }}{{child_form.RBreakdown}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.RFinpass.label_tag }}{{child_form.RFinpass}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ child_form.TRing.label_tag }}{{ child_form.TRing }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.RSizeH.label_tag }}{{child_form.RSizeH}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="column-1p5">
+                    <table id="edit-tb">
+
+
+                        <tr>
+                            <td>{{ child_form.TIBCHold.label_tag }}{{ child_form.TIBCHold }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ child_form.TIBCTool.label_tag }}{{ child_form.TIBCTool }}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ child_form.TInpeder.label_tag }}{{ child_form.TInpeder }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ child_form.TCutClamp.label_tag }}{{ child_form.TCutClamp }}</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="column-1p5">
+                    <table id="edit-tb">
+                        <tr>
+                            <td>{{ child_form.TFaceClamp.label_tag }}{{ child_form.TFaceClamp }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ child_form.TDelClamp.label_tag }}{{ child_form.TDelClamp }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{child_form.RSizeV.label_tag }}{{child_form.RSizeV}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>{{ child_form.TPlug.label_tag }}{{ child_form.TPlug }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column-1p5">
+
+                        <table id="edit-tb">
+                            <tr>
+                                <td>{{ child_form.RTH1.label_tag }}{{ child_form.RTH1 }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ child_form.RTH2.label_tag }}{{ child_form.RTH2 }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.RSQ.label_tag }}{{child_form.RSQ}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{child_form.RSGR.label_tag }}{{child_form.RSGR}}</td>
+                            </tr>
+
+                        </table>
+
+
+                </div>
+                <div class="column-1p5">
+                    <table id="edit-tb">
+
+
+                        <tr>
+                            <td  style="display: flex; justify-content: space-between;">
+                                <button type="button" onclick="PIOKAll()">OK All</button>
+                                <button type="button" onclick="PINGAll()">NG All</button>
+                                <button type="button" onclick="PICleanAll()">Clear All</button>
+                                <button type="reset" >Cancel</button>
+                                <button type="submit" name="save-edit-cs" value="Save &amp; Edit CS">Save</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{ child_form.Leadtime.label_tag }}{{ child_form.Leadtime }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ child_form.TtlInvest.label_tag }}{{ child_form.TtlInvest }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ child_form.Notes.label_tag }}</td>
+                        </tr>
+                        <tr>
+                            <td class="notes">
+                                {{ child_form.Notes }}
+                            </td>
+                        </tr>
+
+                    </table>
+                    <script>
+
+                        function PIOKAll() {
+
+                            document.getElementById("id_cspi_set-0-RBreakdown").value = "OK";
+                            document.getElementById("id_cspi_set-0-RFinpass").value = "OK";
+                            document.getElementById("id_cspi_set-0-RSGR").value = "OK";
+                            document.getElementById("id_cspi_set-0-RSQ").value = "OK";
+                            document.getElementById("id_cspi_set-0-RSizeH").value = "OK";
+                            document.getElementById("id_cspi_set-0-RSizeV").value = "OK";
+
+                            document.getElementById("id_cspi_set-0-RTH1").value = "OK";
+                            document.getElementById("id_cspi_set-0-RTH2").value = "OK";
+
+                            document.getElementById("id_cspi_set-0-TIBCHold").value = "OK";
+                            document.getElementById("id_cspi_set-0-TIBCTool").value = "OK";
+                            document.getElementById("id_cspi_set-0-TInpeder").value = "OK";
+                            document.getElementById("id_cspi_set-0-TCutClamp").value = "OK";
+                            document.getElementById("id_cspi_set-0-TFaceClamp").value = "OK";
+                            document.getElementById("id_cspi_set-0-TDelClamp").value = "OK";
+
+                            document.getElementById("id_cspi_set-0-TRing").value = "OK";
+                            document.getElementById("id_cspi_set-0-TPlug").value = "OK";
+                        }
+                        function PINGAll() {
+                            document.getElementById("id_cspi_set-0-RBreakdown").value = "NG";
+                            document.getElementById("id_cspi_set-0-RFinpass").value = "NG";
+                            document.getElementById("id_cspi_set-0-RSGR").value = "NG";
+                            document.getElementById("id_cspi_set-0-RSQ").value = "NG";
+                            document.getElementById("id_cspi_set-0-RSizeH").value = "NG";
+                            document.getElementById("id_cspi_set-0-RSizeV").value = "NG";
+
+                            document.getElementById("id_cspi_set-0-RTH1").value = "NG";
+                            document.getElementById("id_cspi_set-0-RTH2").value = "NG";
+
+                            document.getElementById("id_cspi_set-0-TIBCHold").value = "NG";
+                            document.getElementById("id_cspi_set-0-TIBCTool").value = "NG";
+                            document.getElementById("id_cspi_set-0-TInpeder").value = "NG";
+                            document.getElementById("id_cspi_set-0-TCutClamp").value = "NG";
+                            document.getElementById("id_cspi_set-0-TFaceClamp").value = "NG";
+                            document.getElementById("id_cspi_set-0-TDelClamp").value = "NG";
+
+                            document.getElementById("id_cspi_set-0-TRing").value = "NG";
+                            document.getElementById("id_cspi_set-0-TPlug").value = "NG";
+                        }
+
+                        function PICleanAll() {
+                            document.getElementById("id_cspi_set-0-RBreakdown").value = "";
+                            document.getElementById("id_cspi_set-0-RFinpass").value = "";
+                            document.getElementById("id_cspi_set-0-RSGR").value = "";
+                            document.getElementById("id_cspi_set-0-RSQ").value = "";
+                            document.getElementById("id_cspi_set-0-RSizeH").value = "";
+                            document.getElementById("id_cspi_set-0-RSizeV").value = "";
+
+                            document.getElementById("id_cspi_set-0-RTH1").value = "";
+                            document.getElementById("id_cspi_set-0-RTH2").value = "";
+
+                            document.getElementById("id_cspi_set-0-TIBCHold").value = "";
+                            document.getElementById("id_cspi_set-0-TIBCTool").value = "";
+                            document.getElementById("id_cspi_set-0-TInpeder").value = "";
+                            document.getElementById("id_cspi_set-0-TCutClamp").value = "";
+                            document.getElementById("id_cspi_set-0-TFaceClamp").value = "";
+                            document.getElementById("id_cspi_set-0-TDelClamp").value = "";
+
+                            document.getElementById("id_cspi_set-0-TRing").value = "";
+                            document.getElementById("id_cspi_set-0-TPlug").value = "";
+                        }
+
+                    </script>
+
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </form>
+
+    Adv
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'ADMIN' %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+            crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4036164292579668"
+            data-ad-slot="3634864736"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    {% endfor %}
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+

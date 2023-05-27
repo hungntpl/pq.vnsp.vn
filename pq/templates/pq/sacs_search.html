@@ -1,0 +1,162 @@
+{% extends 'pq/base.html' %}
+{% load static %}
+{% load tz %}
+{% block content %}
+<head>
+    <!-- for whole page -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pq/css/style.css' %}">
+
+    <!-- for search button -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+</head>
+
+<style>
+    
+</style>
+<body>
+    <!-- Ads blocker check -->
+    <script>
+        // CREDITS: https://jonathanmh.com/how-to-detect-ad-blockers-adblock-ublock-etc/
+        window.addEventListener("load", () => {
+        // (A) TEST FETCH HEADER REQUEST TO GOOGLE ADSENSE
+        let test = new Request(
+          "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+          // "https://static.ads-twitter.com/uwt.js",
+          { method: "HEAD", mode: "no-cors" }
+        );
+  
+        // (B) FIRE THE REQEST
+        fetch(test)
+        // .then(res => alert("ADS ALLOWED"))
+        .catch(err => {
+          let allowAds = confirm("You must disable the ad-blocker then reload the page to continue. Bạn phải tắt chặn quảng cáo rồi nạp lại trang thì mới hoạt động được đúng");
+          window.location.href = "{% url 'logout' %}";
+        })
+      });
+    </script>
+    {% if user.is_authenticated %}
+    <center>    
+        <h3>SPEC Agreement & Consideration Sheet - Critical Items</h3>
+    </center>
+    
+        <div class="column" >
+            <div id="table-wrapper">
+                <div id="table-scroll">
+                    <table id="sacs">
+                        <tr>
+                            <th>No</th>
+                            <th>SA No</th>
+                            <th>Rec No</th>
+                            <th>Customer</th>
+                            <th>Issue date</th>
+                            <th>QA</th>
+                            <th>QC</th>
+                            <th>DGD</th>
+                            
+                            
+                            
+                            <th>Lastest editor</th>
+                            <th>Revised moment</th>
+                            
+                        </tr>
+                        {% for item in sa_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'sa-update' pk=item.SANo %}">{{ item.SANo }}</a></td>
+                            <td>{{ item.QCRecNo|default:"" }}</td>
+                            <td>{{ item.CustID_id|default:"" }}</td>
+                            <td>{{ item.IDate|date:"Y-m-d" }}</td>
+                            <td>{{ item.QAManJudgment|default:"" }}</td>
+                            <td>{{ item.QCManJudgment|default:"" }}</td>
+                            <td>{{ item.DGDJudgment|default:"" }}</td>
+                            
+
+                            
+                            <td>{{ item.LastUser }}</td>
+                            <td>{{ item.LastimeUser }}</td>
+
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            
+            <div id="table-wrapper">
+                <div id="table-scroll">
+                    <table id="sacs">
+                        
+                        <tr>
+                            <th>No</th>
+                            <th>CS No</th>
+                            <th>Deadline</th>
+                            <th>SA No</th>
+                            <th>AS</th>
+                            <th>QA</th>
+                            <th>QC</th>
+                            <th>PI</th>
+                            <th>PR</th>
+                            <th>PC</th>
+                            <th>DGD</th>
+                            <th>Lastest editor</th>
+                            <th>Revised moment</th>
+                            
+                            
+                        </tr>
+                        {% for item in cs_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'cs-update' pk=item.CSNo %}">{{ item.CSNo }}</a></td>
+                            <td>{{ item.DLine|date:"Y-m-d" }}</td>
+                            <td><a href="{% url 'sa-update' pk=item.SANo %}">{{ item.SANo|default:"" }}</a></td>
+                            
+                            <td>{{ item.ASManJudgment|default:"" }}</td>
+                            <td>{{ item.QAManJudgment|default:"" }}</td>
+                            <td>{{ item.QCManJudgment|default:"" }}</td> 
+
+                            <td>{{ item.PIManJudgment|default:"" }}</td>   
+                            <td>{{ item.PRManJudgment|default:"" }}</td> 
+                            <td>{{ item.PCManJudgment|default:"" }}</td> 
+                            <td>{{ item.DGDJudgment|default:"" }}</td> 
+                            <td>{{ item.LastUser }}</td>
+                            <td>{{ item.LastimeUser }}</td>
+                            
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    
+      
+
+
+      {% else %}
+      <h2>Login first please!</h2>
+    
+      {% endif %}
+    
+    Adv
+    
+    <!-- adsense ad position -->
+    {% for group in user.groups.all %}
+        {% if group.name == 'ADMIN' %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+            crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4036164292579668"
+            data-ad-slot="3634864736"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    {% endfor %}
+
+
+</body>
+{% endblock %}

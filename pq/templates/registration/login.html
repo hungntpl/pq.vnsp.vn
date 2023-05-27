@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- Created By CodingLab - www.codinglabweb.com -->
+    {% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Login Form | CodingLab</title> -->
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/style.css' %}"/>
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'registration/login/css/all.min.css' %}"/> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    <!-- <script src="{% static 'registration/login/icon.js' %}"></script> -->
+    <!-- <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script> -->
+
+  </head>
+  <body>
+
+    <script>
+        // CREDITS: https://jonathanmh.com/how-to-detect-ad-blockers-adblock-ublock-etc/
+        window.addEventListener("load", () => {
+        // (A) TEST FETCH HEADER REQUEST TO GOOGLE ADSENSE
+        let test = new Request(
+          "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+          // "https://static.ads-twitter.com/uwt.js",
+          { method: "HEAD", mode: "no-cors" }
+        );
+  
+        // (B) FIRE THE REQEST
+        fetch(test)
+        // .then(res => alert("ADS ALLOWED"))
+        .catch(err => {
+          let allowAds = confirm("You must disable the ad-blocker then reload the page to continue. Bạn phải tắt chặn quảng cáo rồi nạp lại trang thì mới hoạt động được đúng");
+          window.location.href = "{% url 'logout' %}";
+        })
+      });
+    </script>
+
+    <div class="container">
+      <div class="wrapper">
+        <div class="title"><span>Login</span></div>
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div class="row">
+            <i class="fas fa-user"></i>
+            {{ form.username }} 
+          </div>
+          <div class="row">
+            <i class="fas fa-lock"></i>
+            {{ form.password }}
+          </div>
+          <div class="pass"><a href="{% url 'password_reset' %}">Forgot password?</a></div>
+          <div class="row button">
+            <input type="submit" value="login">
+            <input type="hidden" name="next" value="{{ next }}">
+          </div>
+          <div class="signup-link">Not member?<a href="#">Sign Up</a></div>
+        </form>
+      </div>
+    </div>
+
+  </body>
+</html>

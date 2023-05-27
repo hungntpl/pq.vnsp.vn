@@ -1,0 +1,155 @@
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- for whole page -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pq/css/style.css' %}">
+
+    <!-- for search button -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+</head>
+
+<style>
+    
+</style>
+<body>
+    {% if user.is_authenticated %}
+    <center>    
+        <h3>SA&CS - Top 25 Modified Items</h3>
+    </center>
+    <div class="row">
+        <div class="column" >
+            <div class="pq-sacs-search-nav">
+                <a class="active" href="{% url 'SAHome' %}">SPEC Agreement</a>
+                <div class="search-container">
+                    <input type="text" placeholder="Search SA No.." id="SAkey" onkeydown="if (event.keyCode == 13) goToSADetail()">
+                    <input type="submit" value="Search" onClick="goToSADetail()"/>
+                    <script>
+                    function goToSADetail() {
+                        window.location.href="http://pq.vnsp.vn/sa/" + document.getElementById("SAkey").value;
+                    }
+                    </script>
+                </div>
+            </div>
+            <div id="table-wrapper">
+                <div id="table-scroll">
+                    <table id="sacs">
+                        <tr>
+                            <th>No</th>
+                            <th>SA No</th>
+                            <th>Rec No</th>
+                            <th>Status</th>
+                            <th>QA</th>
+                            <th>QC</th>
+                            <th>DGD</th>
+                            
+                            
+                            
+                            <th>Last user</th>
+                            
+                        </tr>
+                        {% for item in sa_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'sa-detail' pk=item.SANo %}">{{ item.SANo }}</a></td>
+                            <td>{{ item.QCRecNo }}</td>
+                            <td>{{ item.SAStatus }}</td>
+                            <td>{{ item.QAManJudgment }}</td>
+                            <td>{{ item.QCManJudgment }}</td>
+                            <td>{{ item.DGDJudgment }}</td>
+                            
+
+                            
+                            <td>{{ item.LastUser }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="column" style="background-color:#bbb;">
+            <div class="pq-sacs-search-nav">
+                <a class="active" href="{% url 'CSHome' %}">Consideration Sheet</a>
+                <div class="search-container">
+
+                  <!-- <form action="/action_page.php">
+                    <input type="text" placeholder="Search.." id="CSkey" name="search">
+                    <button type="submit" onClick="myFunction()"><i class="fa fa-search"></i></button>
+                  </form> -->
+                  <input type="text" placeholder="Search CS No.." id="CSkey" onkeydown="if (event.keyCode == 13) goToCSDetail()">
+                  <input type="submit" value="Search" onClick="goToCSDetail()"/>
+                    <script>
+                    function goToCSDetail() {
+                        window.location.href="http://pq.vnsp.vn/cs/" + document.getElementById("CSkey").value;
+                    }
+                    </script>
+                </div>
+            </div>
+            <div id="table-wrapper">
+                <div id="table-scroll">
+                    <table id="sacs">
+                        
+                        <tr>
+                            <th>No</th>
+                            <th>CS No</th>
+                            <th>SA No</th>
+                            <th>AS</th>
+                            <th>QA</th>
+                            <th>QC</th>
+                            <th>PI</th>
+                            <th>PR</th>
+                            <th>PC</th>
+                            <th>DGD</th>
+                            
+                            
+                            
+                        </tr>
+                        {% for item in cs_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'cs-update' pk=item.CSNo %}">{{ item.CSNo }}</a></td>
+                            <td>{{ item.SANo }}</td>
+                            <td>{{ item.ASManJudgment }}</td>
+                            <td>{{ item.QAManJudgment }}</td>
+                            <td>{{ item.QCManJudgment }}</td> 
+
+                            <td>{{ item.PIManJudgment }}</td>   
+                            <td>{{ item.PRManJudgment }}</td> 
+                            <td>{{ item.PCManJudgment }}</td> 
+                            <td>{{ item.DGDJudgment }}</td> 
+
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+            </div>
+        </div>
+      </div>
+      
+
+
+      {% else %}
+      <h2>Login first please!</h2>
+    
+      {% endif %}
+    
+    
+    
+    <!-- adsense ad position -->
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+        crossorigin="anonymous"></script>
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-format="autorelaxed"
+        data-ad-client="ca-pub-4036164292579668"
+        data-ad-slot="3634864736"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+</body>
+{% endblock %}

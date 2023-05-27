@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cs/css/detail.css' %}">
+    <style>
+        /* Styles for the printed version of the page */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.8cm;
+                /* border: 2px solid black; */
+            }
+            .page-break { 
+                page-break-after: always; 
+              }
+            body {
+                border: 1px solid black;
+                margin: 0px;
+                font-size: 12px;
+                /* font-weight: bold; */
+            }
+            table {
+                /* border: 1px solid black; */
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td {
+                border: 1px solid black;
+            }
+            th {
+                border: 1px solid black;
+                text-align: center;
+            }
+            a {
+              font-weight: bold;
+              
+            }
+            
+        }
+      </style>
+      <script>
+        function goback() {
+        //   alert("The page has finished printing.");
+          window.location.href = "{% url 'cs-update' cs.CSNo %}";
+        }
+      
+        window.onafterprint = goback;
+        window.print();
+      </script>
+</head>
+<body onload="window.print()">
+  <table>
+    <tr>
+      <td rowspan="2" style="width: 10%; text-align: center;">
+        <img src="{% get_media_prefix %}logo.png" alt="VNSP logo" width="70"  >
+      </td>
+      <td rowspan="2" style="width: 45%; text-align: center; font-size: 26px;"> <a>CONSIDERATION SHEET</a></td>
+      <td>CS No: <a>{{ cs.CSNo }}</a></td>
+      <td style="width: 25%;">Deadline: <a>{{ cs.DLine|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td>SA No: <a>{{ sa.CSNo }}</a></td>
+      <td>Issue: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a>{{ cs.CVerDate|date:"d/m/Y" }}</a></td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td colspan="2" style="width: 55%; text-align: center; font-size: 20px;"> <a>VIETNAM NIPPON STEEL PIPE LTD.</a></td>
+      <td style="width: 6%;">Ver: <a>{{ cs.CSNo|slice:"-1:" }}</a></td>
+      <td style="width: 14%;">Inquiry: <a>{{ cs.NewInq|default:"" }}</a></td>
+      <td style="width: 25;">Note: <a>{{ cs.CVerNote|default:"" }}</a></td>
+    </tr>
+  </table>
+  <table>
+    
+      <tr>
+        <td style="width: 55%;">Customer: <a>{{ cs.CustID|default:"" }}</a></td>
+        <td style="width: 45%;">Model: <a>{{ cs.Model|default:"" }}</a></td>
+      </tr>
+  </table>
+  <table>
+      <tr>
+        <td style="width: 30%;" >End User: <a>{{ cs.Enduser|default:"" }}</td>
+        <td style="width: 25%;" >Event: <a>{{ cs.Event|default:"" }}</td>
+        <td style="width: 45%;">Part No: <a>{{ cs.PartNo|default:"" }}</a></td>
+      </tr>
+    <tr>
+      <td >Event: <a>{{ cs.Event|default:"" }}</a></td>
+      <td >Shape: <a>{{ cs.SKind|default:"" }}</a></td>
+      <td >Pipe Grade: <a>{{ cs.PipeGrade|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Demand: <a>{{ cs.EstQty|default:"" }}</a></td>
+      <td >Kind: <a>{{ cs.PKind|default:"" }}</a></td>
+      <td >Pipe Grade: <a>{{ cs.PipeGrade|default:"" }}</a></td>
+    </tr> 
+  </table>
+  {% for csqc in csqc %}
+  <table>
+    <tr>
+      <th style="width: 10%;" rowspan="2">Items</th>
+      <th style="width: 20%;" colspan="2" >Customer's Requests</th>
+      <th style="width: 25%;" colspan="2" rowspan="2">Conclusion</th>
+      <th style="width: 45%;"colspan="2" rowspan="2">Chemical composition</th>
+    </tr>
+    <tr>
+      
+      <th>Size</th>
+      <th>Tol</th>
+      
+    </tr>
+    <tr>
+      <td >OD1</td>
+      <td style="text-align: center;"><a>{{ cs.OD|default:"" }}</a></td>
+      <td style="text-align: center;"><a>{{ cs.AdjOD|default:"" }}</a></td>
+      <td colspan="2" style=" text-align: center;"><a>{{ csqc.AdjOD|default:"" }}</a></td>
+      <td >C: <a>{{ csqc.ChC|default:"" }}</a></td>
+      <td >Si: <a>{{ csqc.ChSi|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >ID(OD2)</td>
+      <td style="text-align: center;"><a>{{ cs.ID|default:"" }}</a></td>
+      <td style="text-align: center;"><a>{{ cs.AdjID|default:"" }}</a></td>
+      <td colspan="2" style="text-align: center;"><a>{{ csqc.AdjDD|default:"" }}</a></td>
+      <td >Mn: <a>{{ csqc.ChMn|default:"" }}</a></td>
+      <td >P: <a>{{ csqc.ChP|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >WT</td>
+      <td style=" text-align: center;"><a>{{ cs.WT|default:"" }}</a></td>
+      <td style="text-align: center;"><a>{{ cs.AdjWT|default:"" }}</a></td>
+      <td colspan="2" style="text-align: center;"><a>{{ csqc.AdjWT|default:"" }}</a></td>
+      <td >AL: <a>{{ csqc.ChAL|default:"" }}</a></td>
+      <td >S: <a>{{ csqc.ChS|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Length</td>
+      <td style="text-align: center;"><a>{{ cs.L|default:"" }}</a></td>
+      <td style="text-align: center;"><a>{{ cs.AdjL|default:"" }}</a></td>
+      <td colspan="2" style="text-align: center;"><a>{{ csqc.AdjL|default:"" }}</a></td>
+      <td >Ni: <a>{{ csqc.ChNi|default:"" }}</a></td>
+      <td >Cr: <a>{{ csqc.ChCr|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Inside bead</td>
+      <td colspan="2" style="text-align: center;"><a>{{ cs.InBead|default:"" }}</a></td>
+      <td colspan="2" style="text-align: center;"><a>{{ csqc.InBead|default:"" }}</a></td>
+      <td >Mo: <a>{{ csqc.ChMo|default:"" }}</a></td>
+      <td >Ti: <a>{{ csqc.ChTi|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Level surface</td>
+      <td colspan="2" style="text-align: center;"><a>{{ cs.SurfLevel|default:"" }}</a></td>
+      <td colspan="2"style="text-align: center;"><a>{{ csqc.SurfLevel|default:"" }}</a></td>
+      <td >Nb: <a>{{ csqc.ChNb|default:"" }}</a></td>
+      <td >Zr: <a>{{ csqc.ChZr|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td rowspan="9" >Others</td>
+      <td rowspan="9" colspan="2"  ><a>{{ cs.Notes|default:"" }}</a></td>
+      <td >Level treat</td>
+      <td style=" text-align: center;">{{ csqc.SurfTreat|default:"" }}</td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.SurfTreat|default:"" }}</a></td> -->
+      <td >N: <a>{{ csqc.ChN|default:"" }}</a></td>
+      <td >E.L (%): <a>{{ csqc.EL|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Straightess</td>
+      <td ><a>{{ cs.Straight|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Straight|default:"" }}</a></td> -->
+      <td >T.S (N/nm2): <a>{{ csqc.TS|default:"" }}</a></td>
+      <td >Y.P (N/nm2): <a>{{ csqc.YP|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Flaring</td>
+      <td style="text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td> -->
+      <td >Hardness: <a>{{ csqc.Hardness|default:"" }}</a></td>
+      <td >Other: <a>{{ csqc.Other|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Flattening 0</td>
+      <td style="text-align: center;"><a>{{ csqc.Flattening|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td> -->
+      <td >PC Note: Packing <a>{{ cs.PackPCNote|default:"" }}</a></td>
+      <td >Qty: <a>{{ cs.PackPQty|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >Flattening 90</td>
+      <td style="text-align: center;"><a>{{ csqc.Flattening90|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td> -->
+      <td rowspan="5" colspan="2" >QC Note: <a>{{ csqc.Notes|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td >W.S Position</td>
+      <td style="text-align: center;"><a>{{ csqc.SQWSPost|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td> -->
+      
+    </tr>
+    <tr>
+      <td >Corner R</td>
+      <td style="text-align: center;"><a>{{ csqc.SQConR|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td> -->
+      <!-- <td rowspan="3" colspan="2" >QC Note: <a>{{ csqc.Notes|default:"" }}</a></td> -->
+    </tr>
+    <tr>
+      <td >Punching/Bulge</td>
+      <td style="text-align: center;"><a>{{ csqc.PPunch|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td> -->
+      <!-- <td colspan="2" >Packing PC Note: <a>{{ cs.PackPCNote|default:"" }}</a></td> -->
+    </tr>
+    <tr>
+      <td >Pipe Edge</td>
+      <td style="text-align: center;"><a>{{ csqc.PipeEdgeValue|default:"" }}</a></td>
+      <!-- <td style="width: 25%; text-align: center;"><a>{{ csqc.Flaring|default:"" }}</a></td> -->
+      <!-- <td colspan="2" >Packing PC Note: <a>{{ cs.PackPCNote|default:"" }}</a></td> -->
+    </tr>
+  </table>
+  <!-- <table>
+    <tr>
+      <td style="width: 15%;">Flattening 0</td>
+      <td colspan="2" style="width: 30%; text-align: center;"><a>{{ cs.Flattening|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ csqc.Flattening|default:"" }}</a></td>
+      <td style="width: 40%; text-align: center;">Packing info</td>
+    </tr>
+    <tr>
+      <td style="width: 15%;">Flattening 90</td>
+      <td colspan="2" style="width: 30%; text-align: center;"><a>{{ cs.Flattening90|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ csqc.Flattening90|default:"" }}</a></td>
+      <td style="width: 40%;">Packing AS Note: <a>{{ cs.PackASNote|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td style="width: 15%;">W.S Position</td>
+      <td colspan="2" style="width: 30%; text-align: center;"><a>{{ cs.SQWSPost|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ csqc.SQWSPost|default:"" }}</a></td>
+      <td style="width: 40%;">Packing PC Note: <a>{{ cs.PackPCNote|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td style="width: 15%;">Corner R</td>
+      <td colspan="2" style="width: 30%; text-align: center;"><a>{{ cs.SQConR|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ csqc.SQConR|default:"" }}</a></td>
+      <td style="width: 40%;">Packing request: <a>{{ cs.AAAAA|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td style="width: 15%;">Punching/Bulge</td>
+      <td colspan="2" style="width: 30%; text-align: center;"><a>{{ cs.PPunch|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ csqc.PPunch|default:"" }}</a></td>
+      <td style="width: 40%;">PC Packing: <a>{{ cs.AAAAA|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td style="width: 15%;">Pipe Edge</td>
+      <td style="width: 15%;"><a>{{ cs.PipeEdgeValue|default:"" }}</a></td>
+      <td style="width: 15%;"><a>{{ cs.PipeEdgeNote|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ csqc.PipeEdgeValue|default:"" }}</a></td>
+      <td style="width: 40%;">PC Packing: <a>{{ cs.AAAAA|default:"" }}</a></td>
+    </tr>
+  </table> -->
+  {% endfor %}
+  Customer process
+  <table>
+    <tr>
+      <th style="width: 10%;">No</th>
+      <th style="width: 30%;">Cust. process</th>
+      <th style="width: 30%;">QC note</th>
+      <th style="width: 30%;">Description</th>
+    </tr>
+    {% for custp in custpros %}
+    <tr>
+      <td style="text-align: center;"><a>{{ forloop.counter }}</a></td>
+      <td style="text-align: center;"><a>{{ custp.CProcess|default:"" }}</a></td>
+      <td style="text-align: center;"><a>{{ custp.QCNote|default:"" }}</a></td>
+      <td style="text-align: center;"><a>{{ custp.Description|default:"" }}</a></td>      
+    </tr>
+    {% endfor %}
+  </table>
+  Coil information:
+  <table>
+    <tr>
+      <th style="width: 10%;">No</th>
+      <th style="width: 15%;">Coil Maker</th>
+      <th style="width: 15%;">Coil SPEC</th>
+      <th style="width: 15%;">Coil Grade</th>
+      <th style="width: 15%;">WT Order</th>
+      <th style="width: 15%;">S.Coil Width</th>
+      <th style="width: 15%;">Mill Line</th>
+    </tr>
+    {% for coilp in coilpros %}
+    <tr>
+      <td style="width: 10%; text-align: center;"><a>{{ forloop.counter }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ coilp.CMaker|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ coilp.CSPEC|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ coilp.CGrade|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ coilp.CWTOrder|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ coilp.SCoilWidth|default:"" }}</a></td>
+      <td style="width: 15%; text-align: center;"><a>{{ coilp.MLinePI|default:"" }}</a></td>      
+    </tr>
+    {% endfor %}
+  </table>
+  Piping information:
+  {% for CSPI in CSPI %}
+  <table>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">Note</td>
+      <td rowspan="2" style="width: 62.5%;"><a>{{ CSPI.PIManNote|default:"" }}</a></td>
+      <td >TTL inv ($): <a>{{ CSPI.TtlInvest|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td>Leadtime: <a>{{ CSPI.Leadtime|default:"" }}</a></td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <th colspan="4" style="width: 50%;">Roller</th>
+      <th colspan="4" style="width: 50%;">Tool</th>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;">Break down</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RBreakdown|default:"" }}</a></td>
+      <td style="width: 12.5%;">SQ</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RSQ|default:"" }}</a></td>  
+      <td style="width: 12.5%;">IBC holder</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TIBCHold|default:"" }}</a></td>
+      <td style="width: 12.5%;">Cut off clamp</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TCutClamp|default:"" }}</a></td>        
+    </tr>
+    <tr>
+      <td style="width: 12.5%;">Finpass</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RFinpass|default:"" }}</a></td>
+      <td style="width: 12.5%;">SGR</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RSGR|default:"" }}</a></td>
+      <td style="width: 12.5%;">IBC tool</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TIBCTool|default:"" }}</a></td>
+      <td style="width: 12.5%;">Delimpler clap</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TDelClamp|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;">Size Horizontal</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RSizeH|default:"" }}</a></td>
+      <td style="width: 12.5%;">T/H-1</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RTH1|default:"" }}</a></td>
+      <td style="width: 12.5%;">Impeder</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TInpeder|default:"" }}</a></td>
+      <td style="width: 12.5%;">Plug</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TPlug|default:"" }}</a></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;">Size Vertical</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RSizeV|default:"" }}</a></td>
+      <td style="width: 12.5%;">T/H-2</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.RTH2|default:"" }}</a></td>
+      <td style="width: 12.5%;">Facing clamp</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TFaceClamp|default:"" }}</a></td>
+      <td style="width: 12.5%;">Ring</td>
+      <td style="width: 12.5%; text-align: center;"><a>{{ CSPI.TRing|default:"" }}</a></td>
+    </tr>
+    {% endfor %}
+  </table>
+  
+  <!-- Approval -->
+  <table style="position: absolute; bottom: 0; text-align: center;border: 2px solid black;">
+    <tr>
+      <th style="width: 12.5%;">Section</th>
+      <th style="width: 62.5%;">Comment</th>
+      <th style="width: 12.5%;">Judgement</th>
+      <th style="width: 12.5%;">Signature</th>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">PC</td>
+      <td rowspan="2" style="width: 62.5%; text-align: left;"><a>{{ cs.PCManNote|default:"" }}</a></td>
+      <td style="width: 12.5%;"><a>{{ cs.PCManJudgment|default:"" }}</a></td>
+      <td rowspan="2" style="height: 35px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;"><a>{{ cs.PCManDate|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">PI</td>
+      <td rowspan="2" style="width: 62.5%; text-align: left;" ><a>{{ cs.PIManNote|default:"" }}</a></td>
+      <td style="width: 12.5%;"><a>{{ cs.PIManJudgment|default:"" }}</a></td>
+      <td rowspan="2" style="height: 35px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;"><a>{{ cs.PIManDate|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">PR</td>
+      <td rowspan="2" style="width: 62.5%; text-align: left;"><a>{{ cs.PRManNote|default:"" }}</a></td>
+      <td style="width: 12.5%;"><a>{{ cs.PRManJudgment|default:"" }}</a></td>
+      <td rowspan="2" style="height: 35px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;"><a>{{ cs.PRManDate|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">QC</td>
+      <td rowspan="2" style="width: 62.5%; text-align: left;"><a>{{ cs.QCManNote|default:"" }}</a></td>
+      <td style="width: 12.5%;"><a>{{ cs.QCManJudgment|default:"" }}</a></td>
+      <td rowspan="2" style="height: 35px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;"><a>{{ cs.QCManDate|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">QA</td>
+      <td rowspan="2" style="width: 62.5%; text-align: left;"><a>{{ cs.QAManNote|default:"" }}</a></td>
+      <td style="width: 12.5%;"><a>{{ cs.QAManJudgment|default:"" }}</a></td>
+      <td rowspan="2" style="height: 35px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;"><a>{{ cs.QAManDate|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">AS</td>
+      <td rowspan="2" style="width: 62.5%; text-align: left;"><a>{{ cs.ASManNote|default:"" }}</a></td>
+      <td style="width: 12.5%;"><a>{{ cs.ASManJudgment|default:"" }}</a></td>
+      <td rowspan="2" style="height: 35px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;"><a>{{ cs.ASManDate|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2" style="width: 12.5%;">D.G.D</td>
+      <td rowspan="2" style="width: 62.5%; text-align: left;"><a>{{ cs.DGDNote|default:"" }}</a></td>
+      <td style="width: 12.5%;"><a>{{ cs.DGDJudgment|default:"" }}</a></td>
+      <td rowspan="2" style="height: 35px;"></td>
+    </tr>
+    <tr>
+      <td style="width: 12.5%;"><a>{{ cs.DGDManDate|date:"d/m/Y" }}</a></td>
+    </tr>
+    <tr>
+      <td colspan="4" style="text-align: left;">
+        Information and document flow: AS -> QC -> PC -> PI/P -> QA -> AS -> D.G.D -> QC <br>
+        
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: left;">
+        This document is VNSP's properties. Any copy or re-change without VNSP's permission is illegal. 
+      </td>
+      <td colspan="2" style="text-align: center;">
+        Rev: 07 F-AS-CR-8.2-10 
+      </td>
+    </tr>
+  </table>
+  {% if cs.ImageSPEC.url is not None %}
+    <div class="page-break"></div>
+    
+    <table>
+      <tr>
+        <td>
+          <h2 style="text-align: center;">Addtional information of CS Number: {{ cs.CSNo }}</h2>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img style="display: block; margin: auto;" src="{{ cs.ImageSPEC.url }}" width="100%" alt="{{ cs.ImageSPEC }} Image">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align: left;">
+          This document is VSP's properties. Any copy or re-change without VNSP's permission is illegal. 
+        </td>
+        <td colspan="2" style="text-align: center;">
+          Rev: 07 F-AS-CR-8.2-10 
+        </td>
+      </tr>
+    </table>
+  {% endif %}
+</body>
+
+{% endblock %}

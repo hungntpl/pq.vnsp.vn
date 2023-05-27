@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pq/css/style.css' %}">
+    
+</head>
+<body>
+  <center>
+  <h2>Create a new customer</h2>
+  <form method="post">{% csrf_token %}
+    <table id="stb">
+    {{ form.as_table }}
+    </table>
+    <button type="submit">Save</button>
+  </form>
+  </center>
+  
+</body>
+{% endblock %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'pq/css/navbar.css' %}">
+    <script src="{% static 'pq/js/func.js' %}"></script>
+     
+    
+    <header class="header">
+        <!-- Logo -->
+        <a href="{% url 'SACSHomeList' %}" class="logo" >VNSP</a>
+
+        <!-- Hamburger icon -->
+        <input class="side-menu" type="checkbox" id="side-menu"/>
+        <label class="hamb" for="side-menu"><span class="hamb-line"></span></label>
+
+        <!-- Menu -->
+        <nav class="nav">
+            <ul class="menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'CSHome' %}">CS</a></li>
+                <li><a href="{% url 'SAHome' %}">SA</a></li>
+                <li><a href="#">Setting</a></li>
+                <li><a href="{% url 'logout' %}?next={% url 'SACSHomeList' %}">Log out</a></li>
+            </ul>
+        </nav>
+    </header> 
+</head>
+
+
+
+
+</html>
+

@@ -1,0 +1,125 @@
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pq/css/style.css' %}">
+</head>
+
+<style>
+    
+       
+</style>
+<body>
+    {% if user.is_authenticated %}
+    <center>    
+        <h2>CS&SA - Lastest 100</h2>
+    </center>
+    
+    <div class="row">
+        <div class="column" style="background-color:#aaa;">
+            <div>
+                <h3 style="text-align: center;">Consideration Sheet</h3> 
+            </div>
+            
+               
+            
+            <div id="table-wrapper">
+                <div id="table-scroll">
+                    <table id="cssa">
+                        
+                        <tr>
+                            <th>No</th>
+                            <th>CS No</th>
+                            <th>SA No</th>
+                            <th>AS</th>
+                            <th>QA</th>
+                            <th>QC</th>
+                            <th>PI</th>
+                            <th>PR</th>
+                            <th>PC</th>
+                            <th>DGD</th>
+                            
+                            
+                            
+                        </tr>
+                        {% for item in cssa %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td><a href="{% url 'CS-detail' pk=item.cs.CSNo %}">{{ item.cs.CSNo }}</a></td>
+                            <td>{{ item.cs.SANo }}</td>
+                            <td>{{ item.cs.ASManJudgment }}</td>
+                            <td>{{ item.cs.QAManJudgment }}</td>
+                            <td>{{ item.cs.QCManJudgment }}</td> 
+
+                            <td>{{ item.cs.PIManJudgment }}</td>   
+                            <td>{{ item.cs.PRManJudgment }}</td> 
+                            <td>{{ item.cs.PCManJudgment }}</td> 
+                            <td>{{ item.cs.DGDJudgment }}</td> 
+
+                            
+                        </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="column" style="background-color:#bbb;">
+            <h3 style="text-align: center;">SPEC Agreement</h3>
+            <div id="table-wrapper">
+                <div id="table-scroll">
+                    <table id="cssa">
+                        <tr>
+                            <th>No</th>
+                            <th>SA No</th>
+                            <th>AS</th>
+                            <th>QA</th>
+                            <th>QC</th>
+                            <th>PI</th>
+                            <th>PR</th>
+                            <th>PC</th>
+                            <th>DGD</th>
+                            
+                            
+                        </tr>
+                        {% for item in cssa %}
+                        <tr>
+                            <td >{{ forloop.counter }}</td>
+                            <td>{{ item.sa.SANo }}</td>
+                            <td>{{ item.sa.CustID }}</td>
+                            <td>{{ item.sa.CustID }}</td>
+                            <td>{{ item.sa.CustID }}</td>
+                            <td>{{ item.sa.CustID }}</td>
+                            <td>{{ item.sa.CustID }}</td>
+                            <td>{{ item.sa.CustID }}</td>
+                            <td>{{ item.sa.CustID }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      {% else %}
+      <h2>Login first please!</h2>
+    
+      {% endif %}
+    
+    
+    
+      <!-- adsense ad position -->
+
+    <amp-ad width="100vw" height="320"
+    type="adsense"
+    data-ad-client="ca-pub-4036164292579668"
+    data-ad-slot="3634864736"
+    data-auto-format="mcrspv"
+    data-full-width="">
+    <div overflow=""></div>
+    </amp-ad>
+
+
+</body>
+{% endblock %}

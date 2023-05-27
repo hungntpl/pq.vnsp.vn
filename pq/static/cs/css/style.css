@@ -1,0 +1,485 @@
+*{
+  line-height: normal !important;
+  /* padding: 0px;
+  margin: 0px;
+  border: 0px; */
+}
+
+.hidden {
+  display: none;
+}
+/*
+* {
+  font-size: 18;
+} */
+
+/* Create two equal columns that floats next to each other */
+.column-3p4 {
+  float: left;
+  width: 60%;
+ ;
+}
+
+.column-7p10 {
+  float: left;
+  width: 70%;
+
+}
+
+/* .column-7p10 select {
+  width: 90%;
+} */
+.column-6p10 {
+  float: left;
+  width: 60%;
+
+}
+.column-8p10 {
+  float: left;
+  width: 80%;
+
+}
+
+
+.column-3p4 input {
+  width: 100%;
+}
+
+.column-1p2 {
+  float: left;
+  width: 50%;
+  height: 100%;
+  /* padding: 2px; */
+
+  /* font-size: 18px; */
+  /* text-align: right; */
+  /* height: 300px; Should be removed. Only for demonstration */
+}
+.column-2p5 {
+  float: left;
+  width: 40%;
+  height: 100%;
+
+}
+
+.column-2p5 input {
+  width: 100%;
+}
+
+.column-2p5 select {
+  width: 100%;
+}
+
+.column-1p3 {
+  float: left;
+  width: 30%;
+  background-color: #ddd;
+}
+
+
+.column-1p5 {
+  float: left;
+  width: 20%;
+  height: 100%;
+
+}
+
+.column-1p10-judg {
+  float: left;
+  width: 10%;
+  height: 100%;
+}
+
+.column-1p10-judg select{
+  
+  width: 55%;
+  
+}
+
+.column-1p10 {
+  float: left;
+  width: 10%;
+  height: 100%;
+
+}
+
+
+
+/* input, select {
+  box-sizing: border-box;
+} */
+input[type='checkbox'] {
+  text-align: center;
+}
+
+input[type='submit'] {
+  background-color: #04AA6D;
+  padding: 0px;
+  /* font-size: 12px; */
+  color: white;
+  max-height: 100%;
+  width: 100%;
+}
+
+input[type='button'] {
+  background-color: pink;
+  /* padding: 1px; */
+  /* font-size: 12px; */
+  max-height: 100%;
+  width: 100%;
+}
+
+.notes input[type='text']{
+  width: 100%;
+}
+textarea {
+  width: 100%;
+  /* height: max-content; */
+  margin: 0px;
+  padding: 0x;
+  font-weight: bold;
+  /* border: 2px solid #ccc; */
+}
+
+input[type='text']{
+  width: 60%;
+  margin: 0px;
+  padding: 0x;
+  font-weight: bold;
+  box-sizing: border-box;
+  /* float: right; */
+}
+
+input[type='date']{
+  width: 60%;
+  margin: 0px;
+  padding: 0px;
+  font-weight: bold;
+  /* float: right; */
+}
+
+input[type='reset']{
+  width: 100%;
+}
+
+
+
+button {
+  background-color: #04AA6D;
+  width: auto;
+  margin: 0px;
+  padding: 0px 3px;
+  font-weight: bold;
+  color: white;
+}
+
+/* .select-element { padding-bottom: 6px; } */
+
+select {
+  width: 60%;
+  margin: 0px;
+  padding: 0px;
+  font-weight: bold;
+
+}
+
+
+
+
+
+label {
+
+  /* height: 30%; */
+  margin: 0px;
+  padding: 0px;
+  /* display:inline-block; */
+  float: left;
+  font-weight: bold;
+}
+/* #wgtmsr{
+  width:150px;
+ } */
+
+.center-h {
+  display: flex; /* or display:grid */
+  justify-content: center;
+}
+
+table {
+  width: 100%; /* set the table width to 100% */
+  height: 100%;
+  /* border: 1px solid black; */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  /* display: table; */
+  clear: both;
+
+}
+
+
+
+.row {
+  background-color: #ddd;
+  /* border: solid; */;
+  position:relative;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  /* width: 100%; */
+  /* color: yellow; */
+  /* display: inline-block; */
+  text-align: right;
+  /* text-decoration: none; */
+  /* display: inline-block; */
+  /* width: 100%; */
+  /* font-size: 18px; */
+  /* margin: 1px 1px; */
+  /* height: 1px; */
+  /* cursor: pointer; */
+}
+
+
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+
+
+.column-3p4 {
+  width: 100%;
+  height: auto;
+}
+
+.column-8p10 {
+  width: 100%;
+  height: auto;
+}
+
+.column-7p10 {
+  width: 100%;
+  height: auto;
+}
+
+.column-6p10 {
+  width: 100%;
+  height: auto;
+}
+
+.column-3p4 input {
+  width: 100%;
+  height: auto;
+}
+
+.column-1p2 {
+  width: 100%;
+  height: auto;
+}
+.column-2p5 {
+  width: 100%;
+  height: auto;
+}
+
+.column-2p5 input {
+  width: 100%;
+  height: auto;
+}
+
+.column-1p3 {
+  width: 100%;
+}
+
+.column-1p5 {
+
+  width: 100%;
+  height: auto;
+}
+.column-1p10 {
+  width: 100%;
+  height: auto;
+}
+.column-1p10-judg {
+  width: 100%;
+  height: auto;
+}
+.column-1p10-judg select{
+  
+  width: 60%;
+  
+}
+}
+
+/* Add styles to the table */
+/* #stb {
+  border-collapse: collapse;
+  width: 100%;
+} */
+
+#search-tb {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* #saupload-tb td {
+  vertical-align: top;
+} */
+
+
+#edit-tb {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* #search-tb td{
+  color: red;
+} */
+
+#bom-tb {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#bom-tb input[type=text]{
+  width: 90%;
+}
+
+.file-field {
+  display: inline;
+}
+
+.row-coil {
+  position:relative;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;;
+  text-align: right;
+  background-color: #ddd;
+}
+
+
+.row-coil input{
+  width: 100%;
+}
+
+.row-coil select{
+  width: auto;
+}
+
+
+#cs {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: auto;
+}
+
+
+
+
+#cs td, #cs th {
+  border: 1px solid #ddd;
+  padding: 3px;
+  white-space: nowrap;
+  /* text-overflow: ellipsis; */
+}
+
+#cs tr:nth-child(even){background-color: #f2f2f2;}
+
+#cs tr:hover {background-color: #ddd;}
+
+
+#cs th {
+
+  padding-top: 1px;
+  padding-bottom: 3px;
+  text-align: center;
+  background-color: #04AA6D;
+  color: white;
+
+}
+
+
+
+
+
+
+
+/* Put data in a fix area */
+
+#table-wrapper {
+  position:relative;
+
+}
+#table-scroll {
+  height:550px;
+  overflow:auto;
+  margin-top:5px;
+  /* display: inline-block; */
+}
+
+#table-scroll-file {
+  height: 160px;
+  overflow:auto;
+  margin-top:1px;
+  text-align: left;
+}
+
+#table-wrapper table {
+  width:100%;
+
+}
+
+#table-wrapper table thead th .text {
+  /* position:absolute;    */
+  top:-5px;
+  /* z-index:2; */
+  height:5px;
+  width:35%;
+  /* border:1px solid red; */
+}
+
+
+
+
+
+
+
+.stb-inp-1p2 input[type=text] {
+  width: 50%;
+  float: right;
+  margin-top: 1px;
+  /* font-size: 16px; */
+}
+.stb-inp-1p2 option {
+  width: 50%;
+}
+
+.stb-inp-1p2 label {
+  float: left;
+}
+
+.stb-inp-1p2 {
+  float: left;
+  width: 50%;
+  /* margin-top: 2px; */
+  /*; */
+}
+.table tr {
+  max-height: 2px;
+}
+
+
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}

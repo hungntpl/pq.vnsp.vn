@@ -1,0 +1,119 @@
+.hidden {
+  display: none;
+}
+/* Create two equal columns that floats next to each other */
+ .column {
+  float: left;
+  width: 20%;
+  padding: 2px;
+  background-color:#aaa;
+  /* text-align: right; */
+  /* height: 300px; Should be removed. Only for demonstration */
+}
+
+.row {
+  background-color: #ddd;
+  position:relative;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  
+  text-align: right;
+  
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#search-tb {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.column-1p5 {
+  float: left;
+  width: 20%;
+  height: 100%;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+
+/* Add styles to the table */
+#stb {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#stb {
+  margin-left: auto;
+}
+
+/* Add styles to the table header */
+#stb th {
+  /* background-color: #f2f2f2; */
+  color: #000;
+  font-weight: bold;
+  padding: 1px;
+  text-align: left;
+}
+
+/* Add styles to the table rows */
+#stb td {
+  /* border: 1px solid #ddd; */
+  padding: 1px;
+  
+}
+
+
+/* #stb input[type="text"] {
+  width: 100%;
+  
+  box-sizing: border-box;
+} */
+
+#stb tr {
+  text-align: right;
+}
+
+#stb td {
+  border: 1px solid #ddd;
+  padding: 1px;
+  /* background-color: rgb(255, 196, 0); */
+  font-weight: bold;
+}
+
+
+
+#sa {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+  
+#sa td, #sa th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#sa tr:nth-child(even){background-color: #f2f2f2;}
+
+#sa tr:hover {background-color: #ddd;}
+
+#sa th {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  text-align: center;
+  background-color: #04AA6D;
+  color: white;
+}

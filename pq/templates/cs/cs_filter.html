@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cs/css/style.css' %}">
+
+    
+</head>
+
+
+<body>
+    <form method="GET">
+    <center>    
+        <h3>Consideration Sheet Filter</h3>
+        <button type="submit" >Search</button>
+    </center>
+    
+    <div class="row">
+        
+            <div class="column-1p5">
+                <table id="search-tb">
+                    <tr>
+                        <td>{{ filter.form.CSNo.label_tag }}{{ filter.form.CSNo }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.SANo.label_tag }}{{ filter.form.SANo }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.Straight.label_tag }}{{ filter.form.Straight }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.Flaring.label_tag }}{{ filter.form.Flaring }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.Flattening90.label_tag }}{{ filter.form.Flattening90 }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.CustSignT.label_tag }}{{ filter.form.CustSignT }}</td>
+                    </tr>
+                    
+                    
+                    
+                    
+                </table>
+            </div>
+            <div class="column-1p5">
+                <table id="search-tb">
+                    
+                    <tr>
+                        <td>{{ filter.form.CustID.label_tag }}{{ filter.form.CustID }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>{{ filter.form.CustIDV.label_tag }}{{ filter.form.CustIDV }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PipeGrade.label_tag }}{{ filter.form.PipeGrade }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PipeGradeV.label_tag }}{{ filter.form.PipeGradeV }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.CoilMaker.label_tag }}{{ filter.form.CoilMaker }}</td>
+                    </tr> 
+                    <tr>
+                        <td>{{ filter.form.CoilGrade.label_tag }}{{ filter.form.CoilGrade }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.CWTOrder.label_tag }}{{ filter.form.CWTOrder }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.SCoilWidth.label_tag }}{{ filter.form.SCoilWidth }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <div class="column-1p5">
+                <div class="column-1p2">
+                    <table id="search-tb">
+                        <tr>
+                            <td>{{ filter.form.OD.label_tag }}{{ filter.form.OD }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ filter.form.ID.label_tag }}{{ filter.form.ID }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ filter.form.WT.label_tag }}{{ filter.form.WT }}</td>
+                        </tr> 
+                        <tr>
+                            <td>{{ filter.form.L.label_tag }}{{ filter.form.L }}</td>
+                        </tr>
+                        
+                        
+                        
+                    </table>
+ 
+                </div>
+                <div class="column-1p2">
+                    <table id="search-tb">
+                        
+                        <tr>
+                            <td>{{ filter.form.AdjOD.label_tag }}{{ filter.form.AdjOD }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ filter.form.AdjID.label_tag }}{{ filter.form.AdjID }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ filter.form.AdjWT.label_tag }}{{ filter.form.AdjWT }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ filter.form.AdjL.label_tag }}{{ filter.form.AdjL }}</td>
+                        </tr>
+                        
+                        
+                        <tr style="text-align: center;">
+                            <!-- <td>
+                                <button type="submit" >Search</button>
+                                <button onclick="window.location.href='{% url 'CSHome' %}'">Reset</button>
+                                
+                                
+                            </td> -->
+                            
+                        </tr>
+                        
+                    </table>                   
+           
+                </div>
+            </div>
+            
+            <div class="column-1p5">
+                <table id="search-tb">
+                    
+                    <tr>
+                        <td>{{ filter.form.InBead.label_tag }}{{ filter.form.InBead }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.SurfLevel.label_tag }}{{ filter.form.SurfLevel }}</td>
+                    </tr> 
+                    <tr>
+                        <td>{{ filter.form.SurfTreat.label_tag }}{{ filter.form.SurfTreat }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PartNo.label_tag }}{{ filter.form.PartNo }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PartName.label_tag }}{{ filter.form.PartName }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PartMaker.label_tag }}{{ filter.form.PartMaker }}</td>
+                    </tr> 
+                    <tr>
+                        <td>{{ filter.form.Model.label_tag }}{{ filter.form.Model }}</td>
+                    </tr>
+                    
+                    
+                </table>
+            </div>
+            
+            <div class="column-1p5">
+                <table id="search-tb">
+                    
+                    <tr>
+                        <td>{{ filter.form.ASManNote.label_tag }}{{ filter.form.ASManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PCManNote.label_tag }}{{ filter.form.PCManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.QCManNote.label_tag }}{{ filter.form.QCManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.QAManNote.label_tag }}{{ filter.form.QAManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PIManNote.label_tag }}{{ filter.form.PIManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.PRManNote.label_tag }}{{ filter.form.PRManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ filter.form.DGDNote.label_tag }}{{ filter.form.DGDNote }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            
+
+            
+
+            
+        </form>
+    </div>
+    
+    <div id="table-wrapper">
+        <div id="table-scroll">
+            <table id="cs">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>CS No</th>
+                        <th>SA No</th>
+                        <th>Customer ID</th>
+                        <th>OD</th>
+                        <th>ID</th>
+                        <th>WT</th>
+                        <th>L</th>
+
+
+                        <th>InBead</th>
+                        <th>Surface Level</th>
+                        <th>Surface Treat</th>
+
+                        <th>Pipe Grade</th>
+                        
+                        <th>Coil Maker</th>
+                        <th>Grade</th>
+                        <th>WT</th>
+                        <th>Width</th>
+
+
+                        
+                        
+
+                        <th>Part No</th>
+                        <th>Part Name</th>
+                        <th>Part Maker</th>
+                        <th>Model</th>
+
+                        <th>Process</th>
+                        
+                        <th>Customer fullname</th>
+                        
+                        <th>AS Man Note</th>
+                        <th>PI Man Note</th>
+                        <th>QA Man Note</th>
+                        <th>QC Man Note</th>
+
+                        <th>PC Man Note</th>
+                        <th>DGD Note</th>
+                        <th>PR Man Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cs in filter.qs|slice:":20" %}
+                        <tr>
+                            <td >{{ forloop.counter }}</td>
+
+                            <td><a href="{% url 'cs-update' pk=cs.CSNo %}">{{ cs.CSNo }}</a></td>
+                            <td><a href="{% url 'sa-update' pk=cs.CSNo %}">{{ cs.SANo|default:"" }}</a></td>
+                            
+                            <td>{{ cs.CustID_id }}</td>
+                            <td>{{ cs.OD }}</td>
+                            <td>{{ cs.ID|default:"" }}</td>
+                            <td>{{ cs.WT }}</td>
+                            <td>{{ cs.L }}</td>
+
+
+                            <td>{{ cs.InBead|default:"" }}</td>
+                            <td>{{ cs.SurfLevel|default:"" }}</td>
+                            <td>{{ cs.SurfTreat|default:"" }}</td>
+                            
+                            <td>{{ cs.PipeGrade_id }}</td>
+                            
+                            <td>
+  
+                                {% for coilpro in coilpros %}
+                                    {% if coilpro.CSNo_id == cs.CSNo %}
+                                        {{ coilpro.CMaker|default:"" }}
+                                    {% endif %}
+                                {% endfor %}
+
+                            </td>
+                            <td>
+  
+                                {% for coilpro in coilpros %}
+                                    {% if coilpro.CSNo_id == cs.CSNo %}
+                                        {{ coilpro.CGrade|default:"" }}
+                                    {% endif %}
+                                {% endfor %}
+
+                            </td>
+                            <td>
+  
+                                {% for coilpro in coilpros %}
+                                    {% if coilpro.CSNo_id == cs.CSNo %}
+                                        {{ coilpro.CWTOrder|default:"" }}
+                                    {% endif %}
+                                {% endfor %}
+
+                            </td>
+                            <td>
+  
+                                {% for coilpro in coilpros %}
+                                    {% if coilpro.CSNo_id == cs.CSNo %}
+                                        {{ coilpro.SCoilWidth|default:"" }}
+                                    {% endif %}
+                                {% endfor %}
+
+                            </td>                    
+                            
+                            
+                            
+
+                            <td>{{ cs.PartNo|default:"" }}</td>
+                            <td>{{ cs.PartName|default:"" }}</td>
+                            <td>{{ cs.PartMaker|default:"" }}</td>
+                            <td>{{ cs.Model|default:"" }}</td>
+
+                            <td>{{ cs.CProcess|default:"" }}</td>
+                            
+                            <td>{{ cs.CustID }}</td>
+
+                            <td>{{ cs.ASManNote|default:"" }}</td>
+                            <td>{{ cs.PIManNote|default:"" }}</td>
+                            <td>{{ cs.QAManNote|default:"" }}</td>
+                            <td>{{ cs.QCManNote|default:"" }}</td>
+
+                            <td>{{ cs.PCManNote|default:"" }}</td>
+                            <td>{{ cs.DGDNote|default:"" }}</td>
+                            <td>{{ cs.PRManNote|default:"" }}</td>
+                           
+
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6">No CSs found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>    
+ 
+    Adv
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'ADMIN' %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+            crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4036164292579668"
+            data-ad-slot="3634864736"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    {% endfor %}
+
+</body>
+{% endblock %}

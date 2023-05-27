@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load l10n %} 
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cs/css/detail.css' %}">
+    <style>
+        /* Styles for the printed version of the page */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0.8cm;
+                /* border: 2px solid black; */
+            }
+            .page-break { 
+                page-break-after: always; 
+              }
+            body {
+                border: 1px solid black;
+                margin: 0px;
+                font-size: 11.7px;
+                /* font-weight: bold; */
+            }
+            table {
+                /* border: 1px solid black; */
+                border-collapse: collapse;
+                width: 100%;
+            }
+            td {
+                border: 1px solid black;
+            }
+            th {
+                border: 1px solid black;
+                text-align: center;
+            }
+            a {
+              font-weight: bold;
+              
+            }
+            
+        }
+      </style>
+      <script>
+        function goback() {
+        //   alert("The page has finished printing.");
+          window.location.href = "{% url 'sa-update' sa.SANo %}";
+        }
+      
+        window.onafterprint = goback;
+        window.print();
+      </script>
+</head>
+<body onload="window.print()">
+  <table>
+    <tr>
+      <td rowspan="2" style="width: 10%; text-align: center;">
+        <img src="{% get_media_prefix %}logo.png" alt="VNSP logo" width="70"  >
+      </td>
+      <td rowspan="2" style="width: 80%; text-align: center; font-size: x-large;"> <a>CUSTOMER'S SPECIFICATION AGREEMENT</a></td>
+      <td>Document No</td>
+      
+    </tr>
+    <tr>
+      <td style="text-align: center;"><a>{{ sa.SANo }}</a></td>
+      
+    </tr>
+    <tr>
+      <td colspan="3" style="text-align: center; font-size: large;"><a>{{sa.CustID}}</a></td>
+    </tr>
+    
+  </table>
+  <table>
+    <tr style="text-align: center;">
+      <td style="width: 25%">Model</td>
+      <td style="width: 25%">Part No</td>
+      <td colspan="2">Part Name</td>
+    </tr>
+    <tr style="text-align: center; font-size: large;">
+      <td><a>{{sa.Model|default:""}}</a></td>
+      <td><a>{{sa.PartNo|default:""}}</a></td>
+      <td colspan="2"><a>{{sa.PartName|default:""}}</a></td>
+      
+    </tr>
+    <tr style="text-align: center;">
+      <td colspan="2">Standard - Tiêu chuẩn</td>
+      <td>Kind - Loại</td>
+      <td style="width: 25%;">Shape - Hình dạng</td>
+    </tr>
+    <tr style="text-align: center; font-size: large;">
+      <td colspan="2"><a>{{sa.PipeStd|default:""}}</a></td>
+      <td><a>{{sa.PKind|default:""}}</a></td>
+      <td><a>{{sa.SKing|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td colspan="4" style="text-align: center;">Grade size - Quy cách và kích thước (mm)</td>
+    </tr>
+  </table>
+  <table>
+    <tr style="text-align: center;">
+      <td style="width: 25%;">Grade</td>
+      <td style="width: 17%;">Inside Beed</td>
+      <td style="width: 8%;">OD1</td>
+      <td style="width: 8%;">OD2/ID</td>
+      <td style="width: 8%;">WT</td>
+      <td style="width: 9%;">L</td>
+      <td style="width: 25%;">Pipe Edge</td>
+    </tr>
+    <tr style="text-align: center; font-size: large;">
+      <td><a>{{sa.PipeGrade}}</a></td>
+      <td><a>{{sa.InBead}}</a></td>
+      <td><a>{{sa.OD}}</a></td>
+      <td><a>{{sa.ID|default:""}}</a></td>
+      <td><a>{{sa.WT}}</a></td>
+      <td><a>{{sa.L}}</a></td>
+      <td><a>{{sa.PipeEdgeNote}}</a></td>
+    </tr>
+    <tr>
+      <td colspan="7" style="text-align: center;">SPECIFICATION - QUY CÁCH</td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td colspan="2" style="width: 50%;">1. Chemical composition</td>
+      <td colspan="4">6. Dimesion tolerance - Dung sai kích thước (mm)</td>
+    </tr>
+    <tr >
+      <td style="width: 25%;">Carbon</td>
+      <td style="width: 25%;"><a>{{sa.ChC}}</a></td>
+      <td style="width: 12.5%; text-align: center;">OD1</td>
+      <td style="width: 12.5%; text-align: center;">OD2</td>
+      <td style="width: 12.5%; text-align: center;" >WT</td>
+      <td style="width: 12.5%; text-align: center;" >L Chiều dài</td>
+
+    </tr>
+    <tr >
+      <td>Silicon</td>
+      <td><a>{{sa.ChS|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.OD|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.ID|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.WT|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.L|default:""}}</a></td>
+      
+    </tr>
+    <tr >
+      <td>Manganese</td>
+      <td><a>{{sa.ChMn|default:""}}</a></td>
+      <td rowspan="2" style="text-align: center;">Inside Bead <br> Height CCĐH</td>
+      <td rowspan="2" style="text-align: center;">Conner radius <br> Bán kính góc</td>
+      <td rowspan="2" style="text-align: center;">Straightness <br> Độ thẳng</td>
+      <td rowspan="2" style="text-align: center;">Pipe edge <br> Đầu ống</td>
+      
+    </tr>
+    <tr >
+      <td>Phosphorus</td>
+      <td><a>{{sa.ChP|default:""}}</a></td>
+    </tr>
+    <tr >
+      <td>Sulphur</td>
+      <td><a>{{sa.ChS|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.InBeadH|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.SQConR|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.Straight|default:""}}</a></td>
+      <td style="text-align: center;"><a>{{sa.PipeEdgeNoteT|default:""}}</a></td>  
+    </tr>
+    
+    <tr >
+      <td >Aluminium</td>
+      <td ><a>{{sa.ChAL|default:""}}</a></td>
+      <td colspan="4">7. NDI - Kiểm tra không phá hủy</td>
+    </tr>
+    <tr >
+      <td>Nickel</td>
+      <td><a>{{sa.ChNi|default:""}}</a></td>
+      <td colspan="4"><a>{{sa.NDI|default:""}}</a></td>
+    </tr>
+    <tr >
+      <td >Chromium</td>
+      <td ><a>{{sa.ChCr|default:""}}</a></td>
+      <td colspan="4">8. Coating - Phủ bề mặt</td>
+    </tr>
+    <tr >
+      <td>Molybdenum</td>
+      <td><a>{{sa.ChMo|default:""}}</a></td>
+      <td colspan="4" rowspan="2"><a>{{sa.Coatching|default:""}}</a></td>
+    </tr>
+    <tr >
+      <td >Titanium</td>
+      <td ><a>{{sa.ChTi|default:""}}</a></td>
+    </tr>
+    <tr >
+      <td >Niobium</td>
+      <td ><a>{{sa.ChNb|default:""}}</a></td>
+      <td colspan="2">9. Packing - Đóng hàng</td>
+      <td colspan="2">10. Marking - Nhận biết</td>
+    </tr>
+    <tr >
+      <td>Zinc</td>
+      <td><a>{{sa.ChZn|default:""}}</a></td>
+      <td colspan="2" rowspan="2"><a>{{sa.Packing|default:""}}</a></td>
+      <td colspan="2" rowspan="2"><a>{{sa.Marking|default:""}}</a></td>
+    </tr>
+    <tr >
+      <td>Nitrogen</td>
+      <td><a>{{sa.ChN|default:""}}</a></td>
+    </tr>
+    <tr >
+      <td>Others</td>
+      <td ><a>{{sa.ChOthers|default:""}}</a></td>
+      <td colspan="4">11. Others - Khác</td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td colspan="3" style="width: 50%;">2. Mechanical properties - Đặc tính cơ lý </td>
+      <td rowspan="5" style="width: 50%;"> <a>{{sa.Others|default:""}}</a></td>
+    </tr>
+    <tr style="text-align: center;">
+      <td style="width: 16.66%;">TS (N/mm2)</td>
+      <td style="width: 16.66%;">YS (N/mm2)</td>
+      <td style="width: 16.66%;">EL (%)</td>
+    </tr>
+    <tr style="text-align: center;">
+      <td ><a>{{sa.TS|default:""}}</a></td>
+      <td ><a>{{sa.YS|default:""}}</a></td>
+      <td ><a>{{sa.EL|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td>Tensile SPEC</td>
+      <td colspan="2" style="text-align: center;"><a>{{sa.Tensile|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td colspan="3">3. Practical test - Kiểm tra cơ tính</td>
+    </tr>
+    </table>
+    <table>
+    <tr>
+      <td style="width: 25%;">Bending - Uốn</td>
+      <td colspan="2" style="text-align: center; width: 25%;"><a>{{sa.Bending|default:""}}</a></td>
+      
+      {% if sa.ImageSPEC %}
+      <td rowspan="7" style="text-align: center;">
+          <img src="<a>{{ sa.ImageSPEC.url }}</a>" alt="SA Drawing" style="max-height: 130px;">
+          
+      </td>
+      {% else %}
+      
+        <td rowspan="7"></td>
+      {% endif %}
+    </tr>
+    <tr>
+      <td>Flattening 90 - Nén 90</td>
+      <td colspan="2" style="text-align: center;"><a>{{sa.Flattening90|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td>Flattening 0 - Nén 0</td>
+      <td colspan="2" style="text-align: center;"><a>{{sa.Flattening|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td>Flaring</td>
+      <td colspan="2" style="text-align: center;"><a>{{sa.Flaring|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td>WS Post - Vị trí đ. hàn</td>
+      <td colspan="2" style="text-align: center;"><a>{{sa.SQWSPost|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td>4. Heat treatment - Xử lý nhiệt</td>
+      <td colspan="2" style="text-align: center;"><a>{{sa.HeatTreat|default:""}}</a></td>
+    </tr>
+    <tr>
+      <td colspan="2">5. Surface level - Tình trạng bề mặt</td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        - Tubes are well finished and the outside and inside surfaces shall be free from injurious defects/ Ống sản xuất ra với tình trạng bề mặt
+        trong và ngoài không bị lỗi nghiêm trọng. <br>
+        - The outside surface may be cleaned up by grinding within dimesional tolerance/ Bề mặt ngoài của ống có thể được mài sửa nhưng vẫn
+        đảm bảo được dung sai về độ dày và đường kính. <br>
+        - The both ends of pipe are, Quy cách hai đầu ống là: <a>{{sa.PipeEdgeNote|default:""}}</a> <br>
+        - Surface level: <a>{{sa.SurfLevel|default:""}}</a> : <a>{{sa.SurfCondE|default:""}}</a> <br>
+        Cấp độ bề mặt: <a>{{sa.SurfLevel|default:""}}</a> : <a>{{sa.SurfCondV|default:""}}</a> <br>
+        - Surface limited samples will be made if necessary based on the agreement between the manufacture and the purchaser
+        Nếu cần thiết, mẫu giới hạn bề mặt sẽ được làm dựa trên sự thỏa thuận giữa bên sản xuất và bên mua.
+      </td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td colspan="4" style="text-align: left;">SPEC Agreement history</td>
+    </tr>
+    <tr style="text-align: center;">
+      <td>SA No</td>
+      <td>Issue date</td>
+      <td>Version</td>
+      <td>Note - Remarks</td>
+    </tr>
+    {% for item in AppHistory %}
+      <tr style="text-align: center;">
+        <td><a>{{ item.SANo }}</a></td>
+        <td><a>{{ item.IDate|date:_("SHORT_DATE_FORMAT") }}</a></td>
+        <td><a>{{ item.SANo|slice:"-2:" }}</a></td>
+        <td style="text-align: left;"><a>{{ item.SAVerNote|default:"" }}</a></td>
+      </tr>
+    {% endfor %}
+    
+
+  </table>
+  
+  
+  <!-- Approval -->
+  <table style="position: absolute; bottom: 0; text-align: center;border: 2px solid black;">
+    <tr>
+      <td colspan="6" style="text-align: left;">
+        Remarks/ghi chú: <br>
+        {% if sa.InBead == sa.InBeadH %}
+          {% if sa.InBead == "IBC" %}
+          - The height of inside bead: Đường hàn đã được xử lý trong qúa trình kéo nguội
+          {% else %}
+          - The height of inside bead: Unlimited (Không giới hạn chiều cao đường hàn trong)
+          {% endif %}
+        {% else %}
+          The height of inside bead (Chiều cao đường hàn trong) -0.2 ≤ WTws =  WT1-[((WT2-)+(WT2+))/2] ≤ +0.2
+        {% endif %}
+        <br>
+        - Follow VNSP's issued "Surface Standard Table" sent to the customer.( Tuân theo bảng tiêu chuẩn cấp độ bề mặt đã gửi tới khách hàng) <br>
+        - Unwritten matters are not covered by the warranty( VNSP không chịu trách nhiệm về những điểm nằm ngoài bản quy cách này)
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 50%;" colspan="3">VNSP Approval</td>
+      <td style="width: 50%;" colspan="3">Customer Approval</td>
+    </tr>
+    <tr>
+      <td style="width: 16.66;"><br><br><br></td>
+      <td style="width: 16.66;"></td>
+      <td style="width: 16.66;"></td>
+      <td style="width: 16.66;"></td>
+      <td style="width: 16.66;"></td>
+      <td style="width: 16.66;"></td>
+    </tr>
+    <tr style="text-align: left;">
+      <td >Date: <a>{{sa.IDate|date:_("SHORT_DATE_FORMAT")}}</a></td>
+      <td >Date: <a>{{sa.IDate|date:_("SHORT_DATE_FORMAT")}}</a></td>
+      <td >Date: <a>{{sa.IDate|date:_("SHORT_DATE_FORMAT")}}</a></td>
+      <td >Date:</td>
+      <td >Date:</td>
+      <td >Date:</td>
+    </tr>
+    <tr>
+      <td colspan="6" >
+        <table style="border: none">
+          <tr>
+            <td style="text-align: left; border: none;">
+              This document is VNSP's properties. Any copy or re-change without VNSP's permission is illegal.      
+            </td>
+            <td style="text-align: right; border: none;" >
+              Code: F-SP-CR-8.6-02-<a>{{sa.CustID_id|default:""}}</a><a>{{sa.QCRecNo|default:""}}</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+
+    </tr>
+    
+  </table>
+  
+  
+</body>
+
+{% endblock %}

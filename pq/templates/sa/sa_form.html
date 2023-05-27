@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cs/css/style.css' %}">
+
+    <!-- import jquery -->
+    <script type="text/javascript" src="{% static 'cs/js/jquery-3.6.4.min.js' %}"></script>
+
+    <!-- access permision by jquery, the risk-->
+    <script>
+        var groups = [];
+        {% for group in user.groups.all %}
+            groups.push('{{ group.name }}');
+        {% endfor %}
+        // var ugroup = "{{ group.name }}" + ugroup;
+        $(document).ready(function() {
+            if (groups.includes("AS") || groups.includes("ASMan") || groups.includes("PC") || groups.includes("PCMan") || groups.includes("PI") || groups.includes("PIMan") || groups.includes("PR") || groups.includes("PRMan")) {
+                $('input[type="submit"]').prop('disabled', true);
+            }
+        });
+    </script>
+
+
+    
+</head>
+<body >
+    
+    
+    <!-- Title and result -->
+    <div style="text-align: center;">
+        {% if request.resolver_match.url_name == 'sa-update' %}
+            <h3>SPEC Agreement No: {{ form.SANo.value }}</h3>
+        {% else %}
+            <h3> Create a SPEC Agreement</h3>
+        {% endif %}
+    </div>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field_errors in form.errors.values %}
+                {% for error in field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if messages %}
+        <div style="text-align: center;">
+            {% for message in messages %}
+                {{ message.tags }} : {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+    </div>
+    
+    <form method="post" enctype="multipart/form-data"  autocomplete="on"> {% csrf_token %}
+        <div style="display: none;">
+            {{ form.DGDManDate }}
+            {{ form.QAManDate }}
+            {{ form.QCManDate }}
+
+            {{ form.AppDate }}
+            
+        </div>
+        
+        <div class="row" style="border: solid black 1px;">
+            <h4 style="text-align: left;text-decoration: underline;">Approval section</h4>
+            <div class = "bod-area" >
+                <div class="column-1p10" >
+                    
+                    <table id="edit-tb" style="height: 100%;">
+                        <tr>
+                            <td><input type="submit" name="save-edit-sa" value="Save & Edit SA" ></td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" name="save-print-sa" value="Save & Print SA" ></td>
+                        </tr>
+                        {% if request.resolver_match.url_name == 'sa-update' %}
+                            {% if user.is_authenticated %}
+                                {% for group in user.groups.all %}
+                                    {% if "QC" in group.name %}
+                                        <!-- Do something if the group name contains "QC" -->
+                                        <tr>
+                                            <td>
+                                                <input type="button" value="Delete this SA" onclick="window.location.href='{% url 'sa-delete' pk=object.pk %}'" id="DelButton">
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            
+                            <tr>
+                                <td><input type="button" onclick="window.location.href='{% url 'sa-detail' pk=object.pk %}'" value="Print preview"></td>
+                            </tr>
+                        {% endif %}  
+                        <tr>
+                            <td><input type="reset" value="Cancel"></td>
+                        </tr>
+                    </table>
+                
+            </div>
+            <div class = "bod-area" >
+            <div class="column-1p5" >
+
+                <table id="edit-tb" style="height: 100%;">
+                    <tr>
+                        <td id="dgd-judg">{{ form.DGDJudgment.label_tag }}{{ form.DGDJudgment }}</td>
+                    </tr>
+                    <tr>
+                        <td id="qc-judg">{{ form.QCManJudgment.label_tag }}{{ form.QCManJudgment }}</td>
+                    </tr>
+                    <tr>
+                        <td id="qa-judg">{{ form.QAManJudgment.label_tag }}{{ form.QAManJudgment }}</td>
+                    </tr>
+                    <tr>
+                        <td id="qa-judg">{{ form.SANo.label_tag }}{{ form.SANo }}</td>
+                    </tr>
+                    <tr>
+                        <td id="qa-judg">{{ form.IDate.label_tag }}{{ form.IDate }}</td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+
+
+
+            <div class="column-7p10" style="border: dashed black 1px;">
+                <div id="table-wrapper">
+                    <div id="table-scroll" style="max-height: 150px;">    
+                        <table id="cs" style="border-collapse: collapse;">
+                            <thead>
+                                <tr>
+        
+                                    
+                                    <th>SA History</th>
+                                    <th>Approved document</th>
+                                    
+                                    <th>Approved Date</th>
+                                    
+                                    <th>Isue Date</th>
+                                    <th>Associated CS</th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+        
+                            
+                            {% for item in AppHistory %}
+                            <tr style="text-align: center;">
+                                    <td><a href="{% url 'sa-update' pk=item.SANo %}">{{ item.SANo }}</a></td>
+                                    
+                                    <td style="text-align: left;">
+                                        {% if item.SAApp %}
+                                            <a href="{{ item.SAApp.url }}">{{ item.SAApp }}</a>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.AppDate }}</td>
+                                    <td>{{ item.IDate }}</td>
+                                    <td>
+                                        {% for csitem in RelatedCS %}
+                                            {% if item.SANo == csitem.SANo %}
+                                                <a href="{% url 'cs-update' pk=csitem.CSNo %}">{{ csitem.CSNo }}/</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    
+                                    
+                                
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+
+                
+            
+            </div>
+            
+
+                
+        </div>
+
+        </div>
+
+        <div class="row" style="border: solid black 1px;">
+            <h4 style="text-align: left;"> Background</h4>
+            <div class="column-1p10" style="height: 100%;">
+                <table id="edit-tb" >
+                    
+                     
+                    <tr>
+                        <td>{{ form.OD.label_tag }}{{ form.OD }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.ID.label_tag }}{{ form.ID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.WT.label_tag }}{{ form.WT }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.L.label_tag }}{{ form.L }}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td id="qc-note">{{ form.QCManNote.label_tag }}{{ form.QCManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td id="qa-note">{{ form.QAManNote.label_tag }}{{ form.QAManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td id="pi-note">{{ form.PIManNote.label_tag }}{{ form.PIManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td id="pr-note">{{ form.PRManNote.label_tag }}{{ form.PRManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td id="pc-note">{{ form.PCManNote.label_tag }}{{ form.PCManNote }}</td>
+                    </tr>
+                    <tr>
+                        <td id="as-note">{{ form.ASManNote.label_tag }}{{ form.ASManNote }}</td>
+                    </tr> -->
+
+
+                </table>
+            </div> 
+            <div class="column-1p5">
+                <table id="edit-tb" >
+                    
+                    <tr>
+                        <td>{{ form.AdjOD.label_tag }}{{ form.AdjOD }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.AdjID.label_tag }}{{ form.AdjID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.AdjWT.label_tag }}{{ form.AdjWT }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.AdjL.label_tag }}{{ form.AdjL }}</td>
+                    </tr>
+                </table>
+            </div> 
+            <div class="column-1p3">
+                <table id="edit-tb">
+                   
+                    <tr>
+                        <td> {{ form.CustID.label_tag }}{{ form.CustID }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.PipeStd.label_tag }}{{ form.PipeStd }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>{{ form.PartNo.label_tag }}{{ form.PartNo }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.PartName.label_tag }}{{ form.PartName }}</td>
+                    </tr> 
+                    <tr>
+                        <td>{{ form.PartMaker.label_tag }}{{ form.PartMaker }}</td>
+                    </tr> 
+                </table>
+            </div>
+            <div class="column-1p5">
+                <table id="edit-tb">
+                    
+                    <tr>
+                        <td>{{ form.PipeGrade.label_tag }}{{ form.PipeGrade }}</td>
+                    </tr>
+                    <tr>
+                        <td> {{ form.Bending.label_tag }}{{ form.Bending }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.Tensile.label_tag }}{{ form.Tensile }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.PipeEdgeNote.label_tag }}{{ form.PipeEdgeNote }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.PipeEdgeNoteT.label_tag }}{{ form.PipeEdgeNoteT }}</td>
+                    </tr> 
+                    
+                </table>
+            </div>
+            <div class="column-1p5">
+                <table id="edit-tb">
+                    <tr>
+                        <td>{{ form.SurfLevel.label_tag }}{{ form.SurfLevel }}</td>
+                    </tr>
+                    <tr>
+                        <td> {{ form.SQConR.label_tag }}{{ form.SQConR }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.InBead.label_tag }}{{ form.InBead }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.InBeadH.label_tag }}{{ form.InBeadH }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ form.QCRecNo.label_tag }}{{ form.QCRecNo }}</td>
+                    </tr> 
+                    
+                </table>
+            </div>
+            
+        </div>
+       
+
+        <div class="row" style="border: solid black 1px;">
+            <h4 style="text-align: left;"> Chemical Composition</h4>
+            <div class = "as-area" >
+                <div class="column-1p5">
+                    <table style="height: 100%;">
+                        <tr>
+                            <td>{{ form.SKind.label_tag }}{{ form.SKind }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.PKind.label_tag }}{{ form.PKind }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.TS.label_tag }}{{ form.TS }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.YP.label_tag }}{{ form.YP }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.EL.label_tag }}{{ form.EL }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Hardness.label_tag }}{{ form.Hardness }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.HeatTreat.label_tag }}{{ form.HeatTreat }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Coatching.label_tag }}{{ form.Coatching }}</td>
+                        </tr>
+                        
+                    </table>
+                </div>
+                <div class="column-1p5">
+                    <table style="height: 100%;">
+                        <tr>
+                            <td>{{ form.SurfTreat.label_tag }}{{ form.SurfTreat }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Straight.label_tag }}{{ form.Straight }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Bending.label_tag }}{{ form.Bending }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Flaring.label_tag }}{{ form.Flaring }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Flattening.label_tag }}{{ form.Flattening }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Flattening90.label_tag }}{{ form.Flattening90 }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.PackStd.label_tag }}{{ form.PackStd }}</td>
+                        </tr>
+                        
+                        
+                    </table>
+                </div>
+                <div class="column-1p5">
+                    <table style="height: 100%;">
+                        <tr>
+                            <td>{{ form.TS.label_tag }}{{ form.TS }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.YP.label_tag }}{{ form.YP }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.EL.label_tag }}{{ form.EL }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Tensile.label_tag }}{{ form.Tensile }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.Other.label_tag }}{{ form.Other }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChC.label_tag }}{{ form.ChC }}</td>
+                        </tr>
+                        
+                    </table>
+                </div>
+                
+
+                <div class="column-1p5">
+                    <table style="height: 100%;">
+                        
+                        <tr>
+                            <td>{{ form.ChSi.label_tag }}{{ form.ChSi }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChMn.label_tag }}{{ form.ChMn }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChP.label_tag }}{{ form.ChP }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChS.label_tag }}{{ form.ChS }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChAL.label_tag }}{{ form.ChAL }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChNi.label_tag }}{{ form.ChNi }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column-1p5">
+                    <table style="height: 100%;">
+                        
+                        <tr>
+                            <td>{{ form.ChCr.label_tag }}{{ form.ChCr }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.CHMo.label_tag }}{{ form.CHMo }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChTi.label_tag }}{{ form.ChTi }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChNb.label_tag }}{{ form.ChNb }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChZr.label_tag }}{{ form.ChZr }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form.ChN.label_tag }}{{ form.Hardness }}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="row" style="border: solid black 1px;">
+            <h4 style="text-align: left;">Remarks</h4>
+            <div class = "as-area" >
+
+                
+                <div class="column-1p5">
+                    <table id="edit-tb" >
+                        <tr>
+                            <td>{{ form.Marking.label_tag }}{{ form.Marking }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column-1p5">
+                    <table id="edit-tb" >
+                        <tr>
+                            <td>{{ form.NDI.label_tag }}{{ form.NDI }}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="column-1p5">
+                    <table id="edit-tb">
+
+                        <tr>
+                            <td>{{ form.Others.label_tag }}{{ form.Others }}</td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="column-1p5">
+                    <table id="edit-tb" >
+                        <tr>
+                            <td>{{ form.SurfCondE.label_tag }}{{ form.SurfCondE }}</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="column-1p5">
+                    <table id="edit-tb">
+
+                        <tr>
+                            <td>{{ form.SurfCondV.label_tag }}{{ form.SurfCondV }}</td>
+                        </tr>
+
+                    </table>
+                </div>
+                
+                    
+                     
+                
+
+            </div>
+        </div >
+
+        
+        
+        
+        <div class="row" style="border: solid black 1px;">
+            
+            <div class="column-6p10" style="border: dashed black 1px;">
+                
+                
+                <table id="edit-tb">
+                    <tr>
+                        <td>
+                            <h4 style="text-align: center; ">Drawing</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left">{{ form.ImageSPEC }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <input type="submit" name="save-edit-sa" value="OK - Save - Upload" style="width: auto;">
+                        </td>
+                    </tr>
+                    <tr>
+                        
+                        {% if form.ImageSPEC.value %}
+                        <td>
+                            <img src="{{ form.ImageSPEC.value.url }}" alt="SA Drawing" width="100%">
+                            
+                        </td>
+                        {% endif %}
+                        
+                    </tr>
+                    
+                </table>
+                
+            </div>
+            <div class="column-2p5" style="border: dashed black 1px;">
+                
+                
+                <table id="edit-tb">
+                    <tr>
+                        <td>
+                            <h4 style="text-align: center; ">Upload approved SPEC Agreement</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">{{ form.SAApp }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <input type="submit" name="save-edit-sa" value="OK - Save - Upload" style="width: auto;">
+                        </td>
+                    </tr>
+                </table>
+                
+            </div>
+        </div>
+        
+        
+        
+        
+    </form>
+
+    Adv
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'ADMIN' %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+            crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4036164292579668"
+            data-ad-slot="3634864736"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    {% endfor %}
+ 
+
+</body>
+
+
+
+
+
+
+
+
+
+    
+{% endblock %}
+
+
+
+
+
+

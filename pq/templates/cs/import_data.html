@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cs/css/style.css' %}">
+    
+</head>
+<body>
+
+<div class="card card-secondary">
+    <div class="card-header">
+        <h3 class="card-title">Upload Consideration Sheet</h3>
+    </div>
+    <div class="card-body">
+        <form role="form" method="POST" action="{% url 'cs-import-data' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Choose Format Type</label><br>           
+            <input class="mb-2" type="file" name="importData">
+            <select class="custom-select" name="file-format1"> 
+            <option selected>Choose format...</option>
+            <option>CSV</option>
+            <option>JSON</option>
+            <option>XLS</option>
+            </select>
+        </div> <br><br><br>
+        <button type="submit" class="btn btn-info btn-block">Upload</button>
+        
+        
+        </form>
+        <br><br><br><br><br>
+        <button onclick="window.location.href='http://pq.vnsp.vn/media/cs_upload_tmp.csv'" class="btn btn-info btn-block">Download CSV template</button>
+        <button onclick="window.location.href='http://pq.vnsp.vn/media/cs_upload_tmp.json'" class="btn btn-info btn-block">Download JSON template</button>
+        <button onclick="window.location.href='http://pq.vnsp.vn/media/cs_upload_tmp.xls'" class="btn btn-info btn-block">Download XLS template</button>
+        
+    </div>
+    
+    
+</div>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+{% endblock %}

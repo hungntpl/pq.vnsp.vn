@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'set/css/style.css' %}">
+    
+</head>
+<body>
+
+    <p>{{ cust.CustID }}</p>
+    <p>{{ cust.Fullname }}</p>
+    <p>{{ cust.SignT }}</p>
+    <p>{{ cust.Sign1 }}</p>
+    <p>{{ cust.Sign2 }}</p>
+    <p>{{ cust.Sign3 }}</p>
+    <p>{{ cust.Notes }}</p>
+    <p>{{ cust.LastUser }}</p>
+    <p>{{ cust.LastimeUser }}</p>
+
+
+
+</body>
+
+{% endblock %}

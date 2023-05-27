@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'set/css/style.css' %}">
+    
+</head>
+<body>
+
+    <center>    
+        <h3>Pipe Grade list</h3>
+    </center>
+    <div class="cust-list">
+      <table id="cust-list-tb">
+        <tr>
+            <th>No</th>
+            <!-- <th>PipeGrade</th> -->
+            <th>PipeGrade</th>
+            <th>Index</th>
+            
+            <th>Notes</th>
+            <th>Action</th>
+            <th>Action</th>
+            <th>TS</th>
+            <th>YP</th>
+            <th>EL</th>
+  
+  
+  
+  
+            <th>Hardness</th>
+            <th>Other</th>
+            <th>ChC</th>
+            
+            
+            <th>Last Modifier</th>
+            <th>Modify time</th>
+            
+            
+        </tr>
+        {% for object in object_list  %}
+        <tr>
+            <td >{{ forloop.counter }}</td>
+            <!-- <td><a href="{% url 'pgrade-detail' pk=object.PipeGrade %}">{{ object.PipeGrade }}</a></td> -->
+            <td><a href="{{ object.get_absolute_url }}">{{ object.PipeGrade }}</a></td>
+            <td>{{ object.Index }}</td>
+            
+            <td>{{ object.Notes }}</td>
+            
+            <td><a href="{% url 'pgrade-update' pk=object.PipeGrade %}">Edit</a></td>
+            <td><a href="{% url 'pgrade-delete' pk=object.PipeGrade %}">Delete</a></td>
+            
+
+            <td>{{ object.TS }}</td>
+            <td>{{ object.YP }}</td>
+            <td>{{ object.EL }}</td>
+  
+            <td>{{ object.Hardness }}</td>
+            <td>{{ object.Other }}</td>
+            <td>{{ object.ChC }}</td>
+  
+            
+            <td>{{ object.LastUser }}</td>
+            <td>{{ object.LastimeUser }}</td>
+        </tr>
+        {% endfor %}
+     </table>
+    </div>
+     
+  <!-- <ul>
+    {% for object in cust_list %}
+      <li>{{ object.CustID }} {{ object.Fullname }}</li>
+    {% endfor %}
+  </ul> -->
+</body>
+Adv
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'ADMIN' %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+            crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4036164292579668"
+            data-ad-slot="3634864736"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

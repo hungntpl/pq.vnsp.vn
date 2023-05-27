@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'set/css/style.css' %}">
+    
+</head>
+<body>
+
+    <p>{{ object.CoilGrade.title }} {{ object.CoilGrade }}</p>
+    <p>{{ object.Notes.title }} {{ object.Notes }}</p>
+    <p>{{ object.LastUser }}</p>
+    <p>{{ object.LastimeUser }}</p>
+
+    
+
+</body>
+
+{% endblock %}

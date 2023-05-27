@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'sa/css/style.css' %}">
+</head>
+
+<body>
+    <center>    
+        <h2>SPEC Agreement - Changes in 3 months</h2>
+    </center>
+    
+    
+    
+    <table id="sa">
+        <tr>
+            <th>No</th>
+            <th>SA No</th>
+            <th>OD</th>
+            <th>ID</th>
+            <th>WT</th>
+            <th>L</th>
+            <th>Issue Date</th>
+            <th>Version</th>
+            <th>Last Modifier</th>
+            <th>Modify time</th>
+            
+            
+        </tr>
+        {% for item in object_list %}
+        <tr>
+            <td >{{ forloop.counter }}</td>
+            <td><a href="{% url 'SA-detail' pk=item.SANo %}">{{ item.SANo }}</a></td>
+            <td>{{ item.OD }}</td>
+            <td>{{ item.ID }}</td>
+            <td>{{ item.WT }}</td>
+            <td>{{ item.L }}</td>
+            <td>{{ item.IDate }}</td>
+            <td>{{ item.SAVer }}</td>
+            <td>{{ item.LastUser }}</td>
+            <td>{{ item.LastimeUser }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+
+
+
+</body>
+{% endblock %}

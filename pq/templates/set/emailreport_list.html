@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'pq/base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <!-- imput form css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'set/css/style.css' %}">
+    
+</head>
+<body>
+
+    <center>    
+        <h3>Report receiver list</h3>
+    </center>
+    <div class="cust-list">
+      <table id="cust-list-tb">
+        <tr>
+            <th>No</th>
+            <th>Action Name</th>
+  
+            <th>Report receiver</th>
+            <th>Remarks</th>
+            
+            
+            
+        </tr>
+        {% for item in emailreport_list %}
+        <tr>
+            <td ><a href="{% url 'emailreport-update' pk=item.pk %}">{{ forloop.counter }}</a></td>
+            <td>{{ item.get_ActionName_display }}</td>
+            
+            
+            
+            <td>{{ item.ReciEmail }}</td>
+            
+            
+            
+
+            <td>{{ item.Remarks }}</td>
+            
+        </tr>
+        {% endfor %}
+     </table>
+    </div>
+     
+  <!-- <ul>
+    {% for item in cust_list %}
+      <li>{{ item.CustID }} {{ item.Fullname }}</li>
+    {% endfor %}
+  </ul> -->
+</body>
+Adv
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'ADMIN' %}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4036164292579668"
+            crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-format="autorelaxed"
+            data-ad-client="ca-pub-4036164292579668"
+            data-ad-slot="3634864736"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
