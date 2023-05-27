@@ -151,12 +151,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # EMAIL_FILE_PATH = BASE_DIR / "sent_emails"    sudo chmod 777 -R /home/hungnt/pq.vnsp.vn/pq/sent_emails
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail25542.maychuemail.com'  
+EMAIL_HOST = '*****.*****.com'  
 EMAIL_USE_TLS = None
 EMAIL_PORT = 25
-EMAIL_HOST_USER = 'support@vnsp.vn'
-EMAIL_HOST_PASSWORD = 'fdc5ccHa1'
-DEFAULT_FROM_EMAIL = 'support@vnsp.vn'
+EMAIL_HOST_USER = '*****@vnsp.vn'
+EMAIL_HOST_PASSWORD = '******'
+DEFAULT_FROM_EMAIL = '****@vnsp.vn'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
